@@ -1,0 +1,12 @@
+.pwh-floor {
+    margin-right: 10px;
+}
+
+.pwh-cont-user {
+    visibility: hidden;
+}
+
+.pwh-author {
+    font-weight: bolder;
+    text-decoration: underline;
+}
