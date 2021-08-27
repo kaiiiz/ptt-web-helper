@@ -10,3 +10,7 @@
     font-weight: bolder;
     text-decoration: underline;
 }
+
+.pwh-hl-hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
