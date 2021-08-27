@@ -22,13 +22,14 @@ function createMetaline(tag: string, value: string) {
 
 function createBtn(iconSrc: string, id: string) {
   let input = document.createElement("input");
-  input.id = `pwh_btn_${id}`
+  input.id = `pwh_btn_${id}_input`
   input.classList.add("pwh-hidden", "pwh-topbar-btn-input");
   input.type = "checkbox";
 
   let label = document.createElement("label");
+  label.id = `pwh_btn_${id}_label`
   label.classList.add("pwh-topbar-btn", "right");
-  label.setAttribute("for", `pwh_btn_${id}`);
+  label.setAttribute("for", `pwh_btn_${id}_input`);
 
   let a = document.createElement("a");
   a.classList.add("pwh-topbar-icon-wrapper");

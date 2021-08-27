@@ -20,15 +20,20 @@
     height: 100%;
     align-items: center;
     cursor: pointer;
-    padding: 0 10px;
+    padding: 0 8px;
 }
 
 #topbar .pwh-hidden {
     display: none;
 }
 
-#topbar .pwh-topbar-btn-input:checked ~ .pwh-topbar-btn > .pwh-topbar-icon-wrapper {
+#topbar #pwh_btn_focus_input:checked ~ #pwh_btn_focus_label > .pwh-topbar-icon-wrapper,
+#topbar #pwh_btn_fold_input:checked ~ #pwh_btn_fold_label > .pwh-topbar-icon-wrapper {
     background-color: brown;
+}
+
+#topbar .pwh-topbar-btn {
+    padding: 0;
 }
 
 #topbar .pwh-topbar-icon {
@@ -38,4 +43,8 @@
 
 .pwh-dim-bg, .pwh-dim-bg > span.hl, .pwh-dim-bg > span.push-content {
     color: rgb(70, 70, 70);
+}
+
+.pwh-fold-reply {
+    display: none;
 }

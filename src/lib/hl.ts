@@ -27,8 +27,9 @@ function hlHover(
   }
 }
 
-let hlElSet = new Set<Element>();
+let hlElSet = new Set<Element>(); // maintain in clickHlHandler
 let focusModeOn = false;
+let foldModeOn = false;
 
 function clickHlHandler(uidPushes: Array<Element>) {
   let hasColor = false;
@@ -83,6 +84,26 @@ function clickFocusBtnHandler(e: Event, pushes: HTMLCollectionOf<Element>) {
   }
 }
 
+function clickFoldBtnHandler(e: Event, pushes: HTMLCollectionOf<Element>) {
+  let isChecked = (e.target as HTMLInputElement).checked;
+  if (isChecked) {
+    // fold non highlight reply
+    foldModeOn = true;
+    for (const push of pushes) {
+      if (!hlElSet.has(push)) {
+        push.classList.add("pwh-fold-reply");
+      }
+    }
+  } else {
+    // remove fold
+    foldModeOn = false;
+    let dimEl = document.querySelectorAll(".pwh-fold-reply");
+    for (const el of dimEl) {
+      el.classList.remove("pwh-fold-reply");
+    }
+  }
+}
+
 function hlClick(
   pushes: HTMLCollectionOf<Element>,
   idElMap: Map<string, Array<Element>>
@@ -100,11 +121,22 @@ function focusMode(pushes: HTMLCollectionOf<Element>) {
   let topbar = document.getElementById("topbar");
   if (topbar == null) return;
 
-  let [label, input] = createBtn("focus.png", "focus_btn");
+  let [label, input] = createBtn("focus.png", "focus");
   topbar.appendChild(input);
   topbar.appendChild(label);
 
   input.addEventListener("click", (e) => clickFocusBtnHandler(e, pushes));
 }
 
-export { hlHover, hlClick, focusMode };
+function foldMode(pushes: HTMLCollectionOf<Element>) {
+  let topbar = document.getElementById("topbar");
+  if (topbar == null) return;
+
+  let [label, input] = createBtn("fold.png", "fold");
+  topbar.appendChild(input);
+  topbar.appendChild(label);
+
+  input.addEventListener("click", (e) => clickFoldBtnHandler(e, pushes));
+}
+
+export { hlHover, hlClick, focusMode, foldMode };
