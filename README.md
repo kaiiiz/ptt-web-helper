@@ -68,3 +68,7 @@ Load `dist` directory
 
 ## Test
 `npx jest` or `npm run test`
+
+## Credits
+
+* https://fonts.google.com/icons

@@ -8,7 +8,8 @@ import {
 
 import {
   hlHover,
-  hlClick
+  hlClick,
+  focusMode
 } from "./lib/hl";
 
 import {
@@ -25,3 +26,4 @@ addReplyStat(pushes);
 let idElMap = getIdElMap(pushes);
 hlHover(pushes, idElMap);
 hlClick(pushes, idElMap);
+focusMode(pushes);

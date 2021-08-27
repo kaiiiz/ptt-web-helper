@@ -12,5 +12,30 @@
 }
 
 .pwh-hl-hover {
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+#topbar .pwh-topbar-icon-wrapper {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+#topbar .pwh-hidden {
+    display: none;
+}
+
+#topbar .pwh-topbar-btn-input:checked ~ .pwh-topbar-btn > .pwh-topbar-icon-wrapper {
+    background-color: brown;
+}
+
+#topbar .pwh-topbar-icon {
+    width: 22px;
+    height: 22px;
+}
+
+.pwh-dim-bg, .pwh-dim-bg > span.hl, .pwh-dim-bg > span.push-content {
+    color: rgb(70, 70, 70);
 }

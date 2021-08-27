@@ -20,4 +20,26 @@ function createMetaline(tag: string, value: string) {
   return metaline;
 }
 
-export { createFloorEl, createMetaline };
+function createBtn(iconSrc: string, id: string) {
+  let input = document.createElement("input");
+  input.id = `pwh_btn_${id}`
+  input.classList.add("pwh-hidden", "pwh-topbar-btn-input");
+  input.type = "checkbox";
+
+  let label = document.createElement("label");
+  label.classList.add("pwh-topbar-btn", "right");
+  label.setAttribute("for", `pwh_btn_${id}`);
+
+  let a = document.createElement("a");
+  a.classList.add("pwh-topbar-icon-wrapper");
+
+  let img = document.createElement("img");
+  img.src = chrome.extension.getURL(iconSrc);
+  img.classList.add("pwh-topbar-icon");
+
+  a.appendChild(img);
+  label.appendChild(a);
+  return [label, input];
+}
+
+export { createFloorEl, createMetaline, createBtn };
