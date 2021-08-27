@@ -1,3 +1,5 @@
+import randomColor from "randomcolor";
+
 function getFirstElByXPath(path: string) {
   return document.evaluate(
     path,
@@ -26,4 +28,26 @@ function getIdElMap(
   return idElMap;
 }
 
-export { getFirstElByXPath, getIdElMap };
+let hlBgColorSet = new Set();
+
+function getHlBgColor() {
+  let getColor = () =>
+    randomColor({
+      hue: 'random',
+      luminosity: "dark",
+      format: "rgba",
+      alpha: 0.42,
+    });
+  let color = getColor();
+  while (hlBgColorSet.has(color)) {
+    color = getColor();
+  }
+  hlBgColorSet.add(color);
+  return color;
+}
+
+function removeHlBgColor(color: string) {
+  hlBgColorSet.delete(color);
+}
+
+export { getFirstElByXPath, getIdElMap, getHlBgColor, removeHlBgColor };

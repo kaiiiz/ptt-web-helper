@@ -7,7 +7,7 @@
   "content_scripts": [
     {
       "matches": ["https://www.ptt.cc/bbs/*/*"],
-      "js": ["js/post.js"],
+      "js": ["js/post.js", "js/vendor.js"],
       "css": ["css/post.css"]
     }
   ]

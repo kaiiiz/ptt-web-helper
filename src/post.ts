@@ -7,7 +7,8 @@ import {
 } from "./lib/basic";
 
 import {
-  hlHover
+  hlHover,
+  hlClick
 } from "./lib/hl";
 
 import {
@@ -23,3 +24,4 @@ addReplyStat(pushes);
 
 let idElMap = getIdElMap(pushes);
 hlHover(pushes, idElMap);
+hlClick(pushes, idElMap);
