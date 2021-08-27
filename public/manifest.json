@@ -1,0 +1,17 @@
+{
+  "name": "PTT Web Helper",
+  "description": "實用的 PTT Web 介面的輔助工具",
+  "version": "1.0",
+  "manifest_version": 2,
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["https://www.ptt.cc/bbs/*/*"],
+      "js": ["js/post.js"],
+      "css": ["css/post.css"]
+    }
+  ]
+}
