@@ -31,6 +31,28 @@ let hlElSet = new Set<Element>(); // maintain in clickHlHandler
 let focusModeOn = false;
 let foldModeOn = false;
 
+function clearHl(push: Element, color: string) {
+  (push as HTMLElement).style.backgroundColor = "";
+  push.removeAttribute("data-color");
+  hlElSet.delete(push);
+  if (focusModeOn) {
+    push.classList.add("pwh-dim-bg");
+  }
+  if (foldModeOn) {
+    push.classList.add("pwh-fold-reply");
+  }
+  removeHlBgColor(color);
+}
+
+function addHl(push: Element, color: string) {
+  (push as HTMLElement).style.backgroundColor = color;
+  push.setAttribute("data-color", color);
+  hlElSet.add(push);
+  if (focusModeOn) {
+    push.classList.remove("pwh-dim-bg");
+  }
+}
+
 function clickHlHandler(uidPushes: Array<Element>) {
   let hasColor = false;
   let candidateColor = getHlBgColor();
@@ -39,22 +61,11 @@ function clickHlHandler(uidPushes: Array<Element>) {
     let dataColor = uidPush.getAttribute("data-color");
     if (dataColor) {
       // remove highlight push
-      (uidPush as HTMLElement).style.backgroundColor = "";
-      uidPush.removeAttribute("data-color");
-      hlElSet.delete(uidPush);
-      removeHlBgColor(dataColor);
+      clearHl(uidPush, dataColor);
       hasColor = true;
-      if (focusModeOn) {
-        uidPush.classList.add("pwh-dim-bg");
-      }
     } else {
       // highlight push
-      (uidPush as HTMLElement).style.backgroundColor = candidateColor;
-      uidPush.setAttribute("data-color", candidateColor);
-      hlElSet.add(uidPush);
-      if (focusModeOn) {
-        uidPush.classList.remove("pwh-dim-bg");
-      }
+      addHl(uidPush, candidateColor);
     }
   }
 
@@ -104,6 +115,13 @@ function clickFoldBtnHandler(e: Event, pushes: HTMLCollectionOf<Element>) {
   }
 }
 
+function clickClearAllHlBtnHandler() {
+  for (const push of hlElSet) {
+    let color = push.getAttribute("data-color");
+    clearHl(push, color!);
+  }
+}
+
 function hlClick(
   pushes: HTMLCollectionOf<Element>,
   idElMap: Map<string, Array<Element>>
@@ -139,4 +157,14 @@ function foldMode(pushes: HTMLCollectionOf<Element>) {
   input.addEventListener("click", (e) => clickFoldBtnHandler(e, pushes));
 }
 
-export { hlHover, hlClick, focusMode, foldMode };
+function addClearAllHlBtn() {
+  let topbar = document.getElementById("topbar");
+  if (topbar == null) return;
+
+  let [label, input] = createBtn("clear.png", "clear");
+  topbar.appendChild(label);
+
+  label.addEventListener("click", () => clickClearAllHlBtnHandler());
+}
+
+export { hlHover, hlClick, focusMode, foldMode, addClearAllHlBtn };

@@ -4,7 +4,7 @@
   "version": "1.0",
   "manifest_version": 2,
   "permissions": ["storage"],
-  "web_accessible_resources": ["focus.png", "fold.png"],
+  "web_accessible_resources": ["focus.png", "fold.png", "clear.png"],
   "content_scripts": [
     {
       "matches": ["https://www.ptt.cc/bbs/*/*"],

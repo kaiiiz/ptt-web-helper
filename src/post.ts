@@ -11,6 +11,7 @@ import {
   hlClick,
   focusMode,
   foldMode,
+  addClearAllHlBtn,
 } from "./lib/hl";
 
 import {
@@ -27,5 +28,6 @@ addReplyStat(pushes);
 let idElMap = getIdElMap(pushes);
 hlHover(pushes, idElMap);
 hlClick(pushes, idElMap);
+addClearAllHlBtn();
 foldMode(pushes);
 focusMode(pushes);

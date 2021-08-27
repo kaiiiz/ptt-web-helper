@@ -36,7 +36,7 @@ function getHlBgColor() {
       hue: 'random',
       luminosity: "dark",
       format: "rgba",
-      alpha: 0.42,
+      alpha: 0.45,
     });
   let color = getColor();
   while (hlBgColorSet.has(color)) {

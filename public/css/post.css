@@ -20,7 +20,7 @@
     height: 100%;
     align-items: center;
     cursor: pointer;
-    padding: 0 8px;
+    padding: 0 9px;
 }
 
 #topbar .pwh-hidden {
@@ -37,8 +37,8 @@
 }
 
 #topbar .pwh-topbar-icon {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
 }
 
 .pwh-dim-bg, .pwh-dim-bg > span.hl, .pwh-dim-bg > span.push-content {
