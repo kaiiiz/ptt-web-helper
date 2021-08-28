@@ -3,7 +3,6 @@
   "description": "實用的 PTT Web 介面的輔助工具",
   "version": "1.0",
   "manifest_version": 2,
-  "permissions": ["storage"],
   "web_accessible_resources": ["focus.png", "fold.png", "clear.png"],
   "content_scripts": [
     {
@@ -11,5 +10,15 @@
       "js": ["js/post.js", "js/vendor.js"],
       "css": ["css/post.css"]
     }
-  ]
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  },
+  "permissions": [
+    "storage"
+  ],
+  "background": {
+    "scripts": ["js/background.js"]
+  }
 }

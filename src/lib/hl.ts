@@ -135,7 +135,7 @@ function hlClick(
   }
 }
 
-function focusMode(pushes: HTMLCollectionOf<Element>) {
+function addFocusModeBtn(pushes: HTMLCollectionOf<Element>) {
   let topbar = document.getElementById("topbar");
   if (topbar == null) return;
 
@@ -146,7 +146,7 @@ function focusMode(pushes: HTMLCollectionOf<Element>) {
   input.addEventListener("click", (e) => clickFocusBtnHandler(e, pushes));
 }
 
-function foldMode(pushes: HTMLCollectionOf<Element>) {
+function addFoldModeBtn(pushes: HTMLCollectionOf<Element>) {
   let topbar = document.getElementById("topbar");
   if (topbar == null) return;
 
@@ -167,4 +167,4 @@ function addClearAllHlBtn() {
   label.addEventListener("click", () => clickClearAllHlBtnHandler());
 }
 
-export { hlHover, hlClick, focusMode, foldMode, addClearAllHlBtn };
+export { hlHover, hlClick, addFocusModeBtn, addFoldModeBtn, addClearAllHlBtn };

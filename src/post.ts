@@ -9,25 +9,68 @@ import {
 import {
   hlHover,
   hlClick,
-  focusMode,
-  foldMode,
+  addFoldModeBtn,
+  addFocusModeBtn,
   addClearAllHlBtn,
 } from "./lib/hl";
 
-import {
-  getIdElMap,
-} from "./lib/utils";
+import { getIdElMap } from "./lib/utils";
 
 let pushes = document.getElementsByClassName("push");
-addFloor(pushes);
-alignPush(pushes);
-hideLongReplyId(pushes);
-highlightAuthor(pushes);
-addReplyStat(pushes);
-
 let idElMap = getIdElMap(pushes);
-hlHover(pushes, idElMap);
-hlClick(pushes, idElMap);
-addClearAllHlBtn();
-foldMode(pushes);
-focusMode(pushes);
+
+chrome.storage.sync.get(
+  [
+    "addFloor",
+    "alignPush",
+    "hideLongReplyId",
+    "highlightAuthor",
+    "addReplyStat",
+    "hlHover",
+    "hlClick",
+    "addClearAllHlBtn",
+    "addFoldModeBtn",
+    "addFocusModeBtn",
+  ],
+  (items) => {
+    if (items.addFloor) {
+      addFloor(pushes);
+    }
+
+    if (items.alignPush) {
+      alignPush(pushes);
+    }
+
+    if (items.hideLongReplyId) {
+      hideLongReplyId(pushes);
+    }
+
+    if (items.highlightAuthor) {
+      highlightAuthor(pushes);
+    }
+
+    if (items.addReplyStat) {
+      addReplyStat(pushes);
+    }
+
+    if (items.hlHover) {
+      hlHover(pushes, idElMap);
+    }
+
+    if (items.hlClick) {
+      hlClick(pushes, idElMap);
+
+      if (items.addClearAllHlBtn) {
+        addClearAllHlBtn();
+      }
+
+      if (items.addFoldModeBtn) {
+        addFoldModeBtn(pushes);
+      }
+
+      if (items.addFocusModeBtn) {
+        addFocusModeBtn(pushes);
+      }
+    }
+  }
+);

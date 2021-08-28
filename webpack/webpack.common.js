@@ -6,6 +6,7 @@ const srcDir = path.join(__dirname, "..", "src");
 module.exports = {
     entry: {
       post: path.join(srcDir, 'post.ts'),
+      options: path.join(srcDir, 'options.tsx'),
       background: path.join(srcDir, 'background.ts'),
     },
     output: {
