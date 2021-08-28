@@ -16,8 +16,8 @@ import {
 
 import { getIdElMap } from "./lib/utils";
 
-let pushes = document.getElementsByClassName("push");
-let idElMap = getIdElMap(pushes);
+const pushes = document.getElementsByClassName("push");
+const idElMap = getIdElMap(pushes);
 
 chrome.storage.sync.get(
   [

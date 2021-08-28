@@ -4,19 +4,19 @@ import { createBtn } from "./createEl";
 function hlHover(
   pushes: HTMLCollectionOf<Element>,
   idElMap: Map<string, Array<Element>>
-) {
+): void {
   for (const push of pushes) {
-    let uid = push.querySelector(".push-userid")?.textContent?.trim();
+    const uid = push.querySelector(".push-userid")?.textContent?.trim();
     if (uid == null) continue;
-    let uidPushes = idElMap.get(uid);
+    const uidPushes = idElMap.get(uid);
 
-    let mouseEnterHandler = (_: Event) => {
+    const mouseEnterHandler = () => {
       if (uidPushes == null) return;
       for (const uidPush of uidPushes) {
         uidPush.classList.add("pwh-hl-hover");
       }
     };
-    let mouseLeaveHandler = (_: Event) => {
+    const mouseLeaveHandler = () => {
       if (uidPushes == null) return;
       for (const uidPush of uidPushes) {
         uidPush.classList.remove("pwh-hl-hover");
@@ -27,11 +27,11 @@ function hlHover(
   }
 }
 
-let hlElSet = new Set<Element>(); // maintain in clickHlHandler
+const hlElSet = new Set<Element>(); // maintain in clickHlHandler
 let focusModeOn = false;
 let foldModeOn = false;
 
-function clearHl(push: Element, color: string) {
+function clearHl(push: Element, color: string): void {
   (push as HTMLElement).style.backgroundColor = "";
   push.removeAttribute("data-color");
   hlElSet.delete(push);
@@ -44,7 +44,7 @@ function clearHl(push: Element, color: string) {
   removeHlBgColor(color);
 }
 
-function addHl(push: Element, color: string) {
+function addHl(push: Element, color: string): void {
   (push as HTMLElement).style.backgroundColor = color;
   push.setAttribute("data-color", color);
   hlElSet.add(push);
@@ -53,12 +53,12 @@ function addHl(push: Element, color: string) {
   }
 }
 
-function clickHlHandler(uidPushes: Array<Element>) {
+function clickHlHandler(uidPushes: Array<Element>): void {
   let hasColor = false;
-  let candidateColor = getHlBgColor();
+  const candidateColor = getHlBgColor();
 
   for (const uidPush of uidPushes) {
-    let dataColor = uidPush.getAttribute("data-color");
+    const dataColor = uidPush.getAttribute("data-color");
     if (dataColor) {
       // remove highlight push
       clearHl(uidPush, dataColor);
@@ -75,8 +75,11 @@ function clickHlHandler(uidPushes: Array<Element>) {
   }
 }
 
-function clickFocusBtnHandler(e: Event, pushes: HTMLCollectionOf<Element>) {
-  let isChecked = (e.target as HTMLInputElement).checked;
+function clickFocusBtnHandler(
+  e: Event,
+  pushes: HTMLCollectionOf<Element>
+): void {
+  const isChecked = (e.target as HTMLInputElement).checked;
   if (isChecked) {
     // dim non highlight reply
     focusModeOn = true;
@@ -88,15 +91,18 @@ function clickFocusBtnHandler(e: Event, pushes: HTMLCollectionOf<Element>) {
   } else {
     // remove dim
     focusModeOn = false;
-    let dimEl = document.querySelectorAll(".pwh-dim-bg");
+    const dimEl = document.querySelectorAll(".pwh-dim-bg");
     for (const el of dimEl) {
       el.classList.remove("pwh-dim-bg");
     }
   }
 }
 
-function clickFoldBtnHandler(e: Event, pushes: HTMLCollectionOf<Element>) {
-  let isChecked = (e.target as HTMLInputElement).checked;
+function clickFoldBtnHandler(
+  e: Event,
+  pushes: HTMLCollectionOf<Element>
+): void {
+  const isChecked = (e.target as HTMLInputElement).checked;
   if (isChecked) {
     // fold non highlight reply
     foldModeOn = true;
@@ -108,16 +114,16 @@ function clickFoldBtnHandler(e: Event, pushes: HTMLCollectionOf<Element>) {
   } else {
     // remove fold
     foldModeOn = false;
-    let dimEl = document.querySelectorAll(".pwh-fold-reply");
+    const dimEl = document.querySelectorAll(".pwh-fold-reply");
     for (const el of dimEl) {
       el.classList.remove("pwh-fold-reply");
     }
   }
 }
 
-function clickClearAllHlBtnHandler() {
+function clickClearAllHlBtnHandler(): void {
   for (const push of hlElSet) {
-    let color = push.getAttribute("data-color");
+    const color = push.getAttribute("data-color");
     clearHl(push, color!);
   }
 }
@@ -125,46 +131,46 @@ function clickClearAllHlBtnHandler() {
 function hlClick(
   pushes: HTMLCollectionOf<Element>,
   idElMap: Map<string, Array<Element>>
-) {
+): void {
   for (const push of pushes) {
-    let uid = push.querySelector(".push-userid")?.textContent?.trim();
+    const uid = push.querySelector(".push-userid")?.textContent?.trim();
     if (uid == null) continue;
-    let uidPushes = idElMap.get(uid);
+    const uidPushes = idElMap.get(uid);
     if (uidPushes == null) continue;
     push.addEventListener("dblclick", () => clickHlHandler(uidPushes!));
   }
 }
 
-function addFocusModeBtn(pushes: HTMLCollectionOf<Element>) {
-  let topbar = document.getElementById("topbar");
+function addFocusModeBtn(pushes: HTMLCollectionOf<Element>): void {
+  const topbar = document.getElementById("topbar");
   if (topbar == null) return;
 
-  let [label, input] = createBtn("focus.png", "focus");
-  topbar.appendChild(input);
-  topbar.appendChild(label);
+  const btn = createBtn("focus.png", "focus");
+  topbar.appendChild(btn.input);
+  topbar.appendChild(btn.label);
 
-  input.addEventListener("click", (e) => clickFocusBtnHandler(e, pushes));
+  btn.input.addEventListener("click", (e) => clickFocusBtnHandler(e, pushes));
 }
 
-function addFoldModeBtn(pushes: HTMLCollectionOf<Element>) {
-  let topbar = document.getElementById("topbar");
+function addFoldModeBtn(pushes: HTMLCollectionOf<Element>): void {
+  const topbar = document.getElementById("topbar");
   if (topbar == null) return;
 
-  let [label, input] = createBtn("fold.png", "fold");
-  topbar.appendChild(input);
-  topbar.appendChild(label);
+  const btn = createBtn("fold.png", "fold");
+  topbar.appendChild(btn.input);
+  topbar.appendChild(btn.label);
 
-  input.addEventListener("click", (e) => clickFoldBtnHandler(e, pushes));
+  btn.input.addEventListener("click", (e) => clickFoldBtnHandler(e, pushes));
 }
 
-function addClearAllHlBtn() {
-  let topbar = document.getElementById("topbar");
+function addClearAllHlBtn(): void {
+  const topbar = document.getElementById("topbar");
   if (topbar == null) return;
 
-  let [label, input] = createBtn("clear.png", "clear");
-  topbar.appendChild(label);
+  const btn = createBtn("clear.png", "clear");
+  topbar.appendChild(btn.label);
 
-  label.addEventListener("click", () => clickClearAllHlBtnHandler());
+  btn.label.addEventListener("click", () => clickClearAllHlBtnHandler());
 }
 
 export { hlHover, hlClick, addFocusModeBtn, addFoldModeBtn, addClearAllHlBtn };

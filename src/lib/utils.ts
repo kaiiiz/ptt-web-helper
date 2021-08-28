@@ -1,6 +1,6 @@
 import randomColor from "randomcolor";
 
-function getFirstElByXPath(path: string) {
+function getFirstElByXPath(path: string): Node | null {
   return document.evaluate(
     path,
     document,
@@ -13,12 +13,12 @@ function getFirstElByXPath(path: string) {
 function getIdElMap(
   pushes: HTMLCollectionOf<Element>
 ): Map<string, Array<Element>> {
-  let idElMap = new Map<string, Array<Element>>();
+  const idElMap = new Map<string, Array<Element>>();
   for (const push of pushes) {
-    let uid = push.querySelector(".push-userid")?.textContent?.trim();
+    const uid = push.querySelector(".push-userid")?.textContent?.trim();
     if (uid == null) continue;
 
-    let idEl = idElMap.get(uid);
+    const idEl = idElMap.get(uid);
     if (idEl) {
       idEl.push(push);
     } else {
@@ -28,12 +28,12 @@ function getIdElMap(
   return idElMap;
 }
 
-let hlBgColorSet = new Set();
+const hlBgColorSet = new Set();
 
-function getHlBgColor() {
-  let getColor = () =>
+function getHlBgColor(): string {
+  const getColor = () =>
     randomColor({
-      hue: 'random',
+      hue: "random",
       luminosity: "dark",
       format: "rgba",
       alpha: 0.45,
@@ -46,7 +46,7 @@ function getHlBgColor() {
   return color;
 }
 
-function removeHlBgColor(color: string) {
+function removeHlBgColor(color: string): void {
   hlBgColorSet.delete(color);
 }
 
