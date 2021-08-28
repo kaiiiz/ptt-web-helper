@@ -63,7 +63,7 @@ const Options = () => {
       },
       () => {
         // Update status to let user know options were saved.
-        setStatus("Options saved.");
+        setStatus("設定已儲存");
         const id = setTimeout(() => {
           setStatus(undefined);
         }, 1000);
