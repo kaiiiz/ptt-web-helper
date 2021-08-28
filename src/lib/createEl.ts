@@ -38,7 +38,7 @@ function createBtn(
   a.classList.add("pwh-topbar-icon-wrapper");
 
   const img = document.createElement("img");
-  img.src = chrome.extension.getURL(iconSrc);
+  img.src = chrome.runtime.getURL(iconSrc);
   img.classList.add("pwh-topbar-icon");
 
   a.appendChild(img);
