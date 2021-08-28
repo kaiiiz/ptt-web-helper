@@ -1,74 +1,44 @@
-# Chrome Extension TypeScript Starter
+# PTT Web Helper
 
-![build](https://github.com/chibat/chrome-extension-typescript-starter/workflows/build/badge.svg)
+增強 https://www.ptt.cc/bbs/ 的網頁功能，讓回文更容易被閱讀。
 
-Chrome Extension, TypeScript and Visual Studio Code
+## 主要功能
 
-## Prerequisites
+* 顯示樓層
+* 對齊推文 ID
+* 隱藏連續推文 ID
+* 推文高亮作者 ID
+* 不重複推噓文、回覆人數統計
+* 滑鼠指向推文時高亮顯示相同 ID 推文
+* 雙擊推文時長亮顯示相同 ID 推文
+  * 支援將非長亮推文變暗
+  * 支援折疊非長亮推文
 
-* [node + npm](https://nodejs.org/) (Current Version)
+## 螢幕截圖
 
-## Option
+![](screenshot/screenshot1.png)
 
-* [Visual Studio Code](https://code.visualstudio.com/)
+![](screenshot/screenshot2.png)
 
-## Includes the following
+![](screenshot/screenshot3.png)
 
-* TypeScript
-* Webpack
-* React
-* Jest
-* Example Code
-    * Chrome Storage
-    * Options Version 2
-    * content script
-    * count up badge number
-    * background
+![](screenshot/screenshot4.png)
 
-## Project Structure
+![](screenshot/screenshot5.png)
 
-* src/typescript: TypeScript source files
-* src/assets: static files
-* dist: Chrome Extension directory
-* dist/js: Generated JavaScript files
-
-## Setup
+## 開發
 
 ```
-npm install
+git clone https://github.com/kaiiiz/ptt-web-helper
+yarn install
 ```
 
-## Import as Visual Studio Code project
-
-...
-
-## Build
-
 ```
-npm run build
+yarn watch // development
+or
+yarn build // production
 ```
 
-## Build in watch mode
+## 致謝
 
-### terminal
-
-```
-npm run watch
-```
-
-### Visual Studio Code
-
-Run watch mode.
-
-type `Ctrl + Shift + B`
-
-## Load extension to chrome
-
-Load `dist` directory
-
-## Test
-`npx jest` or `npm run test`
-
-## Credits
-
-* https://fonts.google.com/icons
+* [Google Fonts](https://fonts.google.com/icons)
