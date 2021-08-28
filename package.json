@@ -8,7 +8,8 @@
     "build": "webpack --config webpack/webpack.prod.js",
     "clean": "rimraf dist",
     "test": "npx jest",
-    "style": "prettier --write \"src/**/*.{ts,tsx}\""
+    "style": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "lint": "eslint . --ext ts --ext tsx --ext js"
   },
   "author": "",
   "license": "MIT",
@@ -17,9 +18,6 @@
     "url": "https://github.com/chibat/chrome-extension-typescript-starter.git"
   },
   "dependencies": {
-    "@typescript-eslint/parser": "^4.29.3",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
@@ -30,8 +28,11 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/parser": "^4.29.3",
     "copy-webpack-plugin": "^6.1.0",
     "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.1",
     "glob": "^7.1.6",
     "jest": "^26.6.3",
     "prettier": "^2.2.1",
