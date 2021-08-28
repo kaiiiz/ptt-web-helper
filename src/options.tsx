@@ -118,7 +118,7 @@ const Options = () => {
             checked={highlightAuthor}
             onChange={(event) => setHighlightAuthor(event.target.checked)}
           />
-          高亮顯示作者 ID
+          高亮作者 ID
         </label>
       </div>
 
@@ -175,7 +175,7 @@ const Options = () => {
                 onChange={(event) => setAddFocusModeBtn(event.target.checked)}
                 disabled={!hlClick}
               />
-              新增讓非長亮推文變暗按鈕
+              新增將非長亮推文變暗按鈕
             </label>
           </div>
 

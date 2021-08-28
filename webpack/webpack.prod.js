@@ -1,6 +1,12 @@
 const merge = require("webpack-merge");
 const common = require("./webpack.common.js");
 
-module.exports = merge(common, {
-  mode: "production",
-});
+modules = []
+
+for (const exp of common) {
+  modules.push(merge(exp, {
+    mode: "production",
+  }))
+}
+
+module.exports = modules

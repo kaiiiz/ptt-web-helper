@@ -3,38 +3,57 @@ const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const srcDir = path.join(__dirname, "..", "src");
 
-module.exports = {
-  entry: {
-    post: path.join(srcDir, "post.ts"),
-    options: path.join(srcDir, "options.tsx"),
-    background: path.join(srcDir, "background.ts"),
-  },
-  output: {
-    path: path.join(__dirname, "../dist/js"),
-    filename: "[name].js",
-  },
-  optimization: {
-    splitChunks: {
-      name: "vendor",
-      chunks: "initial",
+module.exports = [
+  {
+    entry: {
+      post: path.join(srcDir, "post.ts"),
+      options: path.join(srcDir, "options.tsx"),
     },
-  },
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        use: "ts-loader",
-        exclude: /node_modules/,
+    output: {
+      path: path.join(__dirname, "../dist/js"),
+      filename: "[name].js",
+    },
+    optimization: {
+      splitChunks: {
+        name: "vendor",
+        chunks: "initial",
       },
+    },
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          use: "ts-loader",
+          exclude: /node_modules/,
+        },
+      ],
+    },
+    resolve: {
+      extensions: [".ts", ".tsx", ".js"],
+    },
+    plugins: [
+      new CopyPlugin({
+        patterns: [{ from: ".", to: "../", context: "public" }],
+        options: {},
+      }),
     ],
   },
-  resolve: {
-    extensions: [".ts", ".tsx", ".js"],
-  },
-  plugins: [
-    new CopyPlugin({
-      patterns: [{ from: ".", to: "../", context: "public" }],
-      options: {},
-    }),
-  ],
-};
+  {
+    entry: {
+      background: path.join(srcDir, "background.ts"),
+    },
+    output: {
+      path: path.join(__dirname, "../dist"),
+      filename: "[name].js",
+    },
+    optimization: {
+      splitChunks: {
+        name: "vendor",
+        chunks: "initial",
+      },
+    },
+    resolve: {
+      extensions: [".ts", ".tsx", ".js"],
+    },
+  }
+]

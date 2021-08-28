@@ -1,9 +1,14 @@
 {
   "name": "PTT Web Helper",
-  "description": "實用的 PTT Web 介面的輔助工具",
-  "version": "1.0",
-  "manifest_version": 2,
-  "web_accessible_resources": ["focus.png", "fold.png", "clear.png"],
+  "description": "PTT Web 介面的輔助工具",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "web_accessible_resources": [
+    {
+      "resources": ["focus.png", "fold.png", "clear.png"],
+      "matches": ["https://www.ptt.cc/*"]
+    }
+  ],
   "content_scripts": [
     {
       "matches": ["https://www.ptt.cc/bbs/*/*"],
@@ -12,13 +17,12 @@
     }
   ],
   "options_ui": {
-    "page": "options.html",
-    "chrome_style": true
+    "page": "options.html"
   },
   "permissions": [
     "storage"
   ],
   "background": {
-    "scripts": ["js/background.js"]
+    "service_worker": "background.js"
   }
 }
