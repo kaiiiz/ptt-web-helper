@@ -9,6 +9,9 @@
       "matches": ["https://www.ptt.cc/*"]
     }
   ],
+  "icons": {
+    "128": "icon.png"
+  },
   "content_scripts": [
     {
       "matches": ["https://www.ptt.cc/bbs/*/*"],
