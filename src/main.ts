@@ -16,6 +16,8 @@ import {
 
 import { getIdElMap } from "./lib/utils";
 
+import "./scss/style.scss";
+
 const pushes = document.getElementsByClassName("push");
 const idElMap = getIdElMap(pushes);
 
