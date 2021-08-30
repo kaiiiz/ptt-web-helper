@@ -3,6 +3,10 @@ function createFloorEl(floor: number, maxFloorDigit: number): HTMLSpanElement {
   const floorSpan = document.createElement("span");
   floorSpan.textContent = `${" ".repeat(pad)}${floor}F`;
   floorSpan.classList.add("pwh-floor");
+  const anchor = document.createElement("a");
+  anchor.id = `pwh-f${floor}`;
+  anchor.classList.add("pwh-floor-anchor");
+  floorSpan.appendChild(anchor);
   return floorSpan;
 }
 
