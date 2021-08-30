@@ -5,7 +5,7 @@
   "manifest_version": 3,
   "web_accessible_resources": [
     {
-      "resources": ["focus.png", "fold.png", "clear.png"],
+      "resources": ["icons/focus.png", "icons/fold.png", "icons/clear.png"],
       "matches": ["https://www.ptt.cc/*"]
     }
   ],

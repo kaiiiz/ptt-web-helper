@@ -145,7 +145,7 @@ function addFocusModeBtn(pushes: HTMLCollectionOf<Element>): void {
   const topbar = document.getElementById("topbar");
   if (topbar == null) return;
 
-  const btn = createBtn("focus.png", "focus");
+  const btn = createBtn("icons/focus.png", "focus");
   topbar.appendChild(btn.input);
   topbar.appendChild(btn.label);
 
@@ -156,7 +156,7 @@ function addFoldModeBtn(pushes: HTMLCollectionOf<Element>): void {
   const topbar = document.getElementById("topbar");
   if (topbar == null) return;
 
-  const btn = createBtn("fold.png", "fold");
+  const btn = createBtn("icons/fold.png", "fold");
   topbar.appendChild(btn.input);
   topbar.appendChild(btn.label);
 
@@ -167,7 +167,7 @@ function addClearAllHlBtn(): void {
   const topbar = document.getElementById("topbar");
   if (topbar == null) return;
 
-  const btn = createBtn("clear.png", "clear");
+  const btn = createBtn("icons/clear.png", "clear");
   topbar.appendChild(btn.label);
 
   btn.label.addEventListener("click", () => clickClearAllHlBtnHandler());
