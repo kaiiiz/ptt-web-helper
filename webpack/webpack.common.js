@@ -1,9 +1,7 @@
-const webpack = require("webpack");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const srcDir = path.join(__dirname, "..", "src");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = [
   {
@@ -20,9 +18,6 @@ module.exports = [
         name: "vendor",
         chunks: "initial",
       },
-      minimizer: [
-        new CssMinimizerPlugin(),
-      ],
     },
     module: {
       rules: [
