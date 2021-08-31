@@ -58,6 +58,12 @@ function createElevator(): HTMLDivElement {
   elevator.id = "pwh-elevator";
   elevator.classList.add("bbs-content");
   elevator.classList.add("pwh-hidden");
+  const entAnchor = document.createElement("a");
+  const ent = document.createElement("div");
+  ent.classList.add("pwh-elevator-ent");
+  ent.textContent = "尚未選定任何 ID";
+  entAnchor.appendChild(ent);
+  elevator.appendChild(entAnchor);
   return elevator;
 }
 
