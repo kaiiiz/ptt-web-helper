@@ -53,4 +53,62 @@ function createBtn(
   };
 }
 
-export { createFloorEl, createMetaline, createBtn };
+function createElevator(): HTMLDivElement {
+  const elevator = document.createElement("div");
+  elevator.id = "pwh-elevator";
+  elevator.classList.add("bbs-content");
+  elevator.classList.add("pwh-hidden");
+  return elevator;
+}
+
+function createElevatorEnt(
+  floor: number,
+  floorPad: number,
+  tag: string,
+  author: string,
+  content: string,
+  ip: string
+): HTMLAnchorElement {
+  const entAnchor = document.createElement("a");
+  entAnchor.href = `#pwh-f${floor}`;
+
+  const ent = document.createElement("div");
+  ent.classList.add("pwh-elevator-ent");
+
+  const entFloor = document.createElement("span");
+  entFloor.textContent = `${" ".repeat(floorPad)}${floor}F`;
+
+  const entAuthor = document.createElement("span");
+  entAuthor.classList.add("pwh-elevator-ent-author");
+  entAuthor.textContent = author;
+
+  const entTag = document.createElement("span");
+  entTag.textContent = tag;
+  entTag.classList.add("pwh-elevator-ent-tag");
+  if (tag !== "推") {
+    entTag.classList.add("pwh-downvote");
+  }
+
+  const entContent = document.createElement("span");
+  entContent.textContent = content;
+
+  const entIp = document.createElement("span");
+  entIp.textContent = ip;
+  entIp.classList.add("pwh-elevator-ent-ip");
+
+  ent.appendChild(entFloor);
+  ent.appendChild(entTag);
+  ent.appendChild(entAuthor);
+  ent.appendChild(entContent);
+  ent.appendChild(entIp);
+  entAnchor.appendChild(ent);
+  return entAnchor;
+}
+
+export {
+  createFloorEl,
+  createMetaline,
+  createBtn,
+  createElevator,
+  createElevatorEnt,
+};

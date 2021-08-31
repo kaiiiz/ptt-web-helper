@@ -1,10 +1,17 @@
-import { createFloorEl, createMetaline } from "./createEl";
+import {
+  createFloorEl,
+  createMetaline,
+  createElevator,
+  createElevatorEnt,
+  createBtn,
+} from "./createEl";
 import { getFirstElByXPath } from "./utils";
 
 function addFloor(pushes: HTMLCollectionOf<Element>): void {
   let floor = 1;
   const maxFloorDigits = pushes.length.toString().length;
   for (const push of pushes) {
+    push.setAttribute("data-floor", `${floor}`);
     push.insertBefore(createFloorEl(floor, maxFloorDigits), push.firstChild);
     floor += 1;
   }
@@ -104,4 +111,93 @@ function addReplyStat(pushes: HTMLCollectionOf<Element>): void {
   main.insertBefore(peopleMetaline, voteMetaline);
 }
 
-export { addFloor, alignPush, hideLongReplyId, highlightAuthor, addReplyStat };
+let elevatorOn = false;
+
+function peakAuthorReply(
+  pushes: HTMLCollectionOf<Element>,
+  idElMap: Map<string, Array<Element>>
+): void {
+  const topbar = document.getElementById("topbar");
+  const main = document.getElementById("main-container");
+  if (topbar == null || main == null) return;
+
+  const btn = createBtn("icons/elevator.png", "elevator");
+  topbar.appendChild(btn.input);
+  topbar.appendChild(btn.label);
+
+  const elevator = createElevator();
+  main.appendChild(elevator);
+
+  btn.input.onclick = () => {
+    if (elevatorOn) {
+      elevator.classList.add("pwh-hidden");
+    } else {
+      elevator.classList.remove("pwh-hidden");
+    }
+    elevatorOn = !elevatorOn;
+  };
+
+  const uidClickHandler = (uid: string, targetFloor: number) => {
+    // clear previous result
+    while (elevator.firstChild) {
+      elevator.removeChild(elevator.lastChild!);
+    }
+
+    elevator.classList.remove("pwh-hidden");
+    elevatorOn = true;
+    btn.input.checked = true;
+    const uidPushes = idElMap.get(uid)!;
+
+    // calculate floor padding
+    let uidMaxFloorDigits = 0;
+    for (const uidPush of uidPushes) {
+      const dataFloor = uidPush.getAttribute("data-floor");
+      if (dataFloor == null) continue;
+      uidMaxFloorDigits = Math.max(uidMaxFloorDigits, dataFloor.length);
+    }
+
+    let targetScrollPos = 0;
+    for (const uidPush of uidPushes) {
+      const dataFloor = uidPush.getAttribute("data-floor");
+      const tag = uidPush.querySelector(".push-tag")?.textContent?.trim();
+      const text = uidPush.querySelector(".push-content")?.textContent?.trim();
+      const ip = uidPush.querySelector(".push-ipdatetime")?.textContent?.trim();
+      if (dataFloor == null || tag == null || text == null || ip == null) {
+        continue;
+      }
+
+      const ent = createElevatorEnt(
+        +dataFloor,
+        uidMaxFloorDigits - dataFloor.length,
+        tag,
+        uid,
+        text,
+        ip
+      );
+      elevator.appendChild(ent);
+
+      if (+dataFloor == targetFloor) {
+        targetScrollPos = ent.offsetTop;
+      }
+    }
+    elevator.scrollTop = targetScrollPos;
+  };
+
+  for (const push of pushes) {
+    const uidEl = push.querySelector(".push-userid");
+    const uid = uidEl?.textContent?.trim();
+    const dataFloor = push.getAttribute("data-floor");
+    if (uidEl == null || uid == null || dataFloor == null) continue;
+    uidEl.classList.add("pwh-peak-author");
+    uidEl.addEventListener("click", () => uidClickHandler(uid, +dataFloor));
+  }
+}
+
+export {
+  addFloor,
+  alignPush,
+  hideLongReplyId,
+  highlightAuthor,
+  addReplyStat,
+  peakAuthorReply,
+};

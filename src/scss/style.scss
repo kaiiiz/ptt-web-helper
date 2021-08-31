@@ -12,6 +12,10 @@
     visibility: hidden;
 }
 
+.pwh-peak-author {
+    cursor: pointer;
+}
+
 .pwh-author {
     font-weight: bolder;
     text-decoration: underline;
@@ -29,12 +33,13 @@
     padding: 0 9px;
 }
 
-#topbar .pwh-hidden {
-    display: none;
+.pwh-hidden {
+    display: none !important;
 }
 
 #topbar #pwh_btn_focus_input:checked ~ #pwh_btn_focus_label > .pwh-topbar-icon-wrapper,
-#topbar #pwh_btn_fold_input:checked ~ #pwh_btn_fold_label > .pwh-topbar-icon-wrapper {
+#topbar #pwh_btn_fold_input:checked ~ #pwh_btn_fold_label > .pwh-topbar-icon-wrapper,
+#topbar #pwh_btn_elevator_input:checked ~ #pwh_btn_elevator_label > .pwh-topbar-icon-wrapper {
     background-color: brown;
 }
 
@@ -53,4 +58,57 @@
 
 .pwh-fold-reply {
     display: none;
+}
+
+#pwh-elevator {
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 60%;
+    max-width: 900px;
+    max-height: 25%;
+    z-index: 101;
+    overflow-y: auto;
+    background-color: black;
+    border-radius: .375rem;
+    border: white solid 1px;
+    font-size: 1.1rem;
+    overscroll-behavior: contain;
+    
+    a {
+        color: white;
+        display: block;
+        text-decoration: none;
+        padding: 0.5rem 0.75rem;
+        
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+    }
+
+    .pwh-elevator-ent {
+        white-space: pre-wrap;
+
+        a {
+            width: 100%;
+        }
+
+        .pwh-elevator-ent-tag {
+            margin: 0 10px;
+        }
+
+        .pwh-elevator-ent-ip {
+            float: right;
+        }
+
+        .pwh-downvote {
+            color: #f66;
+        }
+
+        .pwh-elevator-ent-author {
+            margin-right: 4px;
+        }
+    }
 }

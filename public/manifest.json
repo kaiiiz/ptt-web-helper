@@ -5,8 +5,15 @@
   "manifest_version": 3,
   "web_accessible_resources": [
     {
-      "resources": ["icons/focus.png", "icons/fold.png", "icons/clear.png"],
-      "matches": ["https://www.ptt.cc/*"]
+      "resources": [
+        "icons/elevator.png",
+        "icons/focus.png",
+        "icons/fold.png",
+        "icons/clear.png"
+      ],
+      "matches": [
+        "https://www.ptt.cc/*"
+      ]
     }
   ],
   "icons": {
@@ -14,9 +21,16 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.ptt.cc/bbs/*/*"],
-      "js": ["main.js", "vendor.js"],
-      "css": ["style.css"]
+      "matches": [
+        "https://www.ptt.cc/bbs/*/*"
+      ],
+      "js": [
+        "main.js",
+        "vendor.js"
+      ],
+      "css": [
+        "style.css"
+      ]
     }
   ],
   "options_ui": {
