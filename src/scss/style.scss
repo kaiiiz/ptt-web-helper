@@ -25,28 +25,28 @@
   background-color: rgba(255, 255, 255, 0.15);
 }
 
-#topbar .pwh-topbar-icon-wrapper {
-  display: flex;
-  height: 100%;
-  align-items: center;
-  cursor: pointer;
-  padding: 0 9px;
-}
-
 .pwh-hidden {
   display: none !important;
 }
 
-#topbar .pwh-topbar-btn {
+#navigation .pwh-nav-btn {
   padding: 0;
 
-  .pwh-topbar-btn-input:checked ~ label > .pwh-topbar-icon-wrapper {
-    background-color: brown;
+  .pwh-nav-btn-input:checked ~ label > .pwh-nav-icon-wrapper {
+    background-color: #969696;
   }
 
-  .pwh-topbar-icon {
-    width: 20px;
-    height: 20px;
+  .pwh-nav-icon-wrapper {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 9px;
+
+    .pwh-nav-icon {
+      width: 26px;
+      height: 26px;
+    }
   }
 }
 

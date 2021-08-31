@@ -89,11 +89,11 @@ function hlClick(
 }
 
 function addFocusModeBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
-  const topbar = document.getElementById("topbar");
-  if (topbar == null) return;
+  const navigation = document.getElementById("navigation");
+  if (navigation == null) return;
 
   const btn = createBtn("icons/focus.png", "focus");
-  topbar.appendChild(btn.wrapper);
+  navigation.appendChild(btn.wrapper);
 
   btn.input.addEventListener("click", (e) => {
     const isChecked = (e.target as HTMLInputElement).checked;
@@ -117,11 +117,11 @@ function addFocusModeBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
 }
 
 function addFoldModeBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
-  const topbar = document.getElementById("topbar");
-  if (topbar == null) return;
+  const navigation = document.getElementById("navigation");
+  if (navigation == null) return;
 
   const btn = createBtn("icons/fold.png", "fold");
-  topbar.appendChild(btn.wrapper);
+  navigation.appendChild(btn.wrapper);
 
   btn.input.addEventListener("click", (e) => {
     const isChecked = (e.target as HTMLInputElement).checked;
@@ -145,11 +145,11 @@ function addFoldModeBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
 }
 
 function addClearAllHlBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
-  const topbar = document.getElementById("topbar");
-  if (topbar == null) return;
+  const navigation = document.getElementById("navigation");
+  if (navigation == null) return;
 
   const btn = createBtn("icons/clear.png", "clear");
-  topbar.appendChild(btn.wrapper);
+  navigation.appendChild(btn.wrapper);
 
   btn.input.onclick = () => {
     for (const push of hlElSet) {

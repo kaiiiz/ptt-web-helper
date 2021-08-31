@@ -117,12 +117,12 @@ function peakAuthorReply(
   pushes: HTMLCollectionOf<HTMLElement>,
   idElMap: Map<string, Array<HTMLElement>>
 ): void {
-  const topbar = document.getElementById("topbar");
+  const navigation = document.getElementById("navigation");
   const main = document.getElementById("main-container");
-  if (topbar == null || main == null) return;
+  if (navigation == null || main == null) return;
 
   const btn = createBtn("icons/elevator.png", "elevator");
-  topbar.appendChild(btn.wrapper);
+  navigation.appendChild(btn.wrapper);
 
   const elevator = createElevator();
   main.appendChild(elevator);

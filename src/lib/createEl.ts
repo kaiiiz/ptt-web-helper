@@ -41,24 +41,24 @@ function createBtn(
   input: HTMLInputElement;
 } {
   const wrapper = document.createElement("div");
-  wrapper.classList.add("pwh-topbar-btn", "right");
+  wrapper.classList.add("pwh-nav-btn", "right");
 
   const input = document.createElement("input");
   input.id = `pwh_btn_${id}_input`;
-  input.classList.add("pwh-hidden", "pwh-topbar-btn-input");
+  input.classList.add("pwh-hidden", "pwh-nav-btn-input");
   input.type = "checkbox";
 
   const label = document.createElement("label");
   label.id = `pwh_btn_${id}_label`;
-  label.classList.add("pwh-topbar-btn-label");
+  label.classList.add("pwh-nav-btn-label");
   label.setAttribute("for", `pwh_btn_${id}_input`);
 
   const a = document.createElement("a");
-  a.classList.add("pwh-topbar-icon-wrapper");
+  a.classList.add("pwh-nav-icon-wrapper");
 
   const img = document.createElement("img");
   img.src = chrome.runtime.getURL(iconSrc);
-  img.classList.add("pwh-topbar-icon");
+  img.classList.add("pwh-nav-icon");
 
   a.appendChild(img);
   label.appendChild(a);
