@@ -2,8 +2,8 @@ import { getHlBgColor, removeHlBgColor } from "./utils";
 import { createBtn } from "./createEl";
 
 function hlHover(
-  pushes: HTMLCollectionOf<Element>,
-  idElMap: Map<string, Array<Element>>
+  pushes: HTMLCollectionOf<HTMLElement>,
+  idElMap: Map<string, Array<HTMLElement>>
 ): void {
   for (const push of pushes) {
     const uid = push.querySelector(".push-userid")?.textContent?.trim();
@@ -27,12 +27,12 @@ function hlHover(
   }
 }
 
-const hlElSet = new Set<Element>(); // maintain in clickHlHandler
+const hlElSet = new Set<HTMLElement>(); // maintain in clickHlHandler
 let focusModeOn = false;
 let foldModeOn = false;
 
-function clearHl(push: Element, color: string): void {
-  (push as HTMLElement).style.backgroundColor = "";
+function clearHl(push: HTMLElement, color: string): void {
+  push.style.backgroundColor = "";
   push.removeAttribute("data-color");
   hlElSet.delete(push);
   if (focusModeOn) {
@@ -44,8 +44,8 @@ function clearHl(push: Element, color: string): void {
   removeHlBgColor(color);
 }
 
-function addHl(push: Element, color: string): void {
-  (push as HTMLElement).style.backgroundColor = color;
+function addHl(push: HTMLElement, color: string): void {
+  push.style.backgroundColor = color;
   push.setAttribute("data-color", color);
   hlElSet.add(push);
   if (focusModeOn) {
@@ -53,78 +53,32 @@ function addHl(push: Element, color: string): void {
   }
 }
 
-function clickHlHandler(uidPushes: Array<Element>): void {
-  let hasColor = false;
-  const candidateColor = getHlBgColor();
-
-  for (const uidPush of uidPushes) {
-    const dataColor = uidPush.getAttribute("data-color");
-    if (dataColor) {
-      // remove highlight push
-      clearHl(uidPush, dataColor);
-      hasColor = true;
-    } else {
-      // highlight push
-      addHl(uidPush, candidateColor);
-    }
-  }
-
-  // remove candidate color if trigger remove color logic
-  if (hasColor) {
-    removeHlBgColor(candidateColor);
-  }
-}
-
-function clickFocusBtnHandler(
-  e: Event,
-  pushes: HTMLCollectionOf<Element>
-): void {
-  const isChecked = (e.target as HTMLInputElement).checked;
-  if (isChecked) {
-    // dim non highlight reply
-    focusModeOn = true;
-    for (const push of pushes) {
-      if (!hlElSet.has(push)) {
-        push.classList.add("pwh-dim-bg");
-      }
-    }
-  } else {
-    // remove dim
-    focusModeOn = false;
-    const dimEl = document.querySelectorAll(".pwh-dim-bg");
-    for (const el of dimEl) {
-      el.classList.remove("pwh-dim-bg");
-    }
-  }
-}
-
-function clickFoldBtnHandler(
-  e: Event,
-  pushes: HTMLCollectionOf<Element>
-): void {
-  const isChecked = (e.target as HTMLInputElement).checked;
-  if (isChecked) {
-    // fold non highlight reply
-    foldModeOn = true;
-    for (const push of pushes) {
-      if (!hlElSet.has(push)) {
-        push.classList.add("pwh-fold-reply");
-      }
-    }
-  } else {
-    // remove fold
-    foldModeOn = false;
-    const dimEl = document.querySelectorAll(".pwh-fold-reply");
-    for (const el of dimEl) {
-      el.classList.remove("pwh-fold-reply");
-    }
-  }
-}
-
 function hlClick(
-  pushes: HTMLCollectionOf<Element>,
-  idElMap: Map<string, Array<Element>>
+  pushes: HTMLCollectionOf<HTMLElement>,
+  idElMap: Map<string, Array<HTMLElement>>
 ): void {
+  const clickHlHandler = (uidPushes: Array<HTMLElement>): void => {
+    let hasColor = false;
+    const candidateColor = getHlBgColor();
+
+    for (const uidPush of uidPushes) {
+      const dataColor = uidPush.getAttribute("data-color");
+      if (dataColor) {
+        // remove highlight push
+        clearHl(uidPush, dataColor);
+        hasColor = true;
+      } else {
+        // highlight push
+        addHl(uidPush, candidateColor);
+      }
+    }
+
+    // remove candidate color if trigger remove color logic
+    if (hasColor) {
+      removeHlBgColor(candidateColor);
+    }
+  };
+
   for (const push of pushes) {
     const uid = push.querySelector(".push-userid")?.textContent?.trim();
     if (uid == null) continue;
@@ -134,27 +88,63 @@ function hlClick(
   }
 }
 
-function addFocusModeBtn(pushes: HTMLCollectionOf<Element>): void {
+function addFocusModeBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
   const topbar = document.getElementById("topbar");
   if (topbar == null) return;
 
   const btn = createBtn("icons/focus.png", "focus");
   topbar.appendChild(btn.wrapper);
 
-  btn.input.addEventListener("click", (e) => clickFocusBtnHandler(e, pushes));
+  btn.input.addEventListener("click", (e) => {
+    const isChecked = (e.target as HTMLInputElement).checked;
+    if (isChecked) {
+      // dim non highlight reply
+      focusModeOn = true;
+      for (const push of pushes) {
+        if (!hlElSet.has(push)) {
+          push.classList.add("pwh-dim-bg");
+        }
+      }
+    } else {
+      // remove dim
+      focusModeOn = false;
+      const dimEl = document.querySelectorAll(".pwh-dim-bg");
+      for (const el of dimEl) {
+        el.classList.remove("pwh-dim-bg");
+      }
+    }
+  });
 }
 
-function addFoldModeBtn(pushes: HTMLCollectionOf<Element>): void {
+function addFoldModeBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
   const topbar = document.getElementById("topbar");
   if (topbar == null) return;
 
   const btn = createBtn("icons/fold.png", "fold");
   topbar.appendChild(btn.wrapper);
 
-  btn.input.addEventListener("click", (e) => clickFoldBtnHandler(e, pushes));
+  btn.input.addEventListener("click", (e) => {
+    const isChecked = (e.target as HTMLInputElement).checked;
+    if (isChecked) {
+      // fold non highlight reply
+      foldModeOn = true;
+      for (const push of pushes) {
+        if (!hlElSet.has(push)) {
+          push.classList.add("pwh-fold-reply");
+        }
+      }
+    } else {
+      // remove fold
+      foldModeOn = false;
+      const dimEl = document.querySelectorAll(".pwh-fold-reply");
+      for (const el of dimEl) {
+        el.classList.remove("pwh-fold-reply");
+      }
+    }
+  });
 }
 
-function addClearAllHlBtn(pushes: HTMLCollectionOf<Element>): void {
+function addClearAllHlBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
   const topbar = document.getElementById("topbar");
   if (topbar == null) return;
 

@@ -3,9 +3,11 @@ function createFloorEl(floor: number, maxFloorDigit: number): HTMLSpanElement {
   const floorSpan = document.createElement("span");
   floorSpan.textContent = `${" ".repeat(pad)}${floor}F`;
   floorSpan.classList.add("pwh-floor");
+
   const anchor = document.createElement("a");
   anchor.id = `pwh-f${floor}`;
   anchor.classList.add("pwh-floor-anchor");
+
   floorSpan.appendChild(anchor);
   return floorSpan;
 }
@@ -13,12 +15,15 @@ function createFloorEl(floor: number, maxFloorDigit: number): HTMLSpanElement {
 function createMetaline(tag: string, value: string): HTMLDivElement {
   const metaline = document.createElement("div");
   metaline.classList.add("article-metaline");
+
   const metatag = document.createElement("span");
   metatag.classList.add("article-meta-tag");
   metatag.textContent = tag;
+
   const metaval = document.createElement("span");
   metaval.classList.add("article-meta-value");
   metaval.textContent = value;
+
   metaline.appendChild(metatag);
   metaline.appendChild(metaval);
   return metaline;
@@ -68,10 +73,13 @@ function createElevator(): HTMLDivElement {
   elevator.id = "pwh-elevator";
   elevator.classList.add("bbs-content");
   elevator.classList.add("pwh-hidden");
+
   const entAnchor = document.createElement("a");
+
   const ent = document.createElement("div");
   ent.classList.add("pwh-elevator-ent");
   ent.textContent = "尚未選定任何 ID";
+
   entAnchor.appendChild(ent);
   elevator.appendChild(entAnchor);
   return elevator;

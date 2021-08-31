@@ -11,9 +11,9 @@ function getFirstElByXPath(path: string): Node | null {
 }
 
 function getIdElMap(
-  pushes: HTMLCollectionOf<Element>
-): Map<string, Array<Element>> {
-  const idElMap = new Map<string, Array<Element>>();
+  pushes: HTMLCollectionOf<HTMLElement>
+): Map<string, Array<HTMLElement>> {
+  const idElMap = new Map<string, Array<HTMLElement>>();
   for (const push of pushes) {
     const uid = push.querySelector(".push-userid")?.textContent?.trim();
     if (uid == null) continue;

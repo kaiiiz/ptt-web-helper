@@ -7,7 +7,7 @@ import {
 } from "./createEl";
 import { getFirstElByXPath } from "./utils";
 
-function addFloor(pushes: HTMLCollectionOf<Element>): void {
+function addFloor(pushes: HTMLCollectionOf<HTMLElement>): void {
   let floor = 1;
   const maxFloorDigits = pushes.length.toString().length;
   for (const push of pushes) {
@@ -17,7 +17,7 @@ function addFloor(pushes: HTMLCollectionOf<Element>): void {
   }
 }
 
-function alignPush(pushes: HTMLCollectionOf<Element>): void {
+function alignPush(pushes: HTMLCollectionOf<HTMLElement>): void {
   let maxUidLen = 0;
   for (const push of pushes) {
     const uidEl = push.querySelector(".push-userid");
@@ -36,7 +36,7 @@ function alignPush(pushes: HTMLCollectionOf<Element>): void {
   }
 }
 
-function hideLongReplyId(pushes: HTMLCollectionOf<Element>): void {
+function hideLongReplyId(pushes: HTMLCollectionOf<HTMLElement>): void {
   let prevUid = "";
   for (const push of pushes) {
     const uidEl = push.querySelector(".push-userid");
@@ -49,7 +49,7 @@ function hideLongReplyId(pushes: HTMLCollectionOf<Element>): void {
   }
 }
 
-function highlightAuthor(pushes: HTMLCollectionOf<Element>): void {
+function highlightAuthor(pushes: HTMLCollectionOf<HTMLElement>): void {
   // get author metadata
   const authorEl = getFirstElByXPath(
     "//div[@class='article-metaline']/span[text()='作者']"
@@ -72,7 +72,7 @@ function highlightAuthor(pushes: HTMLCollectionOf<Element>): void {
   }
 }
 
-function addReplyStat(pushes: HTMLCollectionOf<Element>): void {
+function addReplyStat(pushes: HTMLCollectionOf<HTMLElement>): void {
   const idStat = new Map();
   for (const push of pushes) {
     const uid = push.querySelector(".push-userid")?.textContent?.trim();
@@ -114,8 +114,8 @@ function addReplyStat(pushes: HTMLCollectionOf<Element>): void {
 let elevatorOn = false;
 
 function peakAuthorReply(
-  pushes: HTMLCollectionOf<Element>,
-  idElMap: Map<string, Array<Element>>
+  pushes: HTMLCollectionOf<HTMLElement>,
+  idElMap: Map<string, Array<HTMLElement>>
 ): void {
   const topbar = document.getElementById("topbar");
   const main = document.getElementById("main-container");
@@ -183,7 +183,7 @@ function peakAuthorReply(
   };
 
   for (const push of pushes) {
-    const uidEl = push.querySelector(".push-userid");
+    const uidEl = push.querySelector<HTMLElement>(".push-userid");
     const uid = uidEl?.textContent?.trim();
     const dataFloor = push.getAttribute("data-floor");
     if (uidEl == null || uid == null || dataFloor == null) continue;
