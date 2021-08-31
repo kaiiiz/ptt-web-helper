@@ -25,6 +25,7 @@ const idElMap = getIdElMap(pushes);
 chrome.storage.sync.get(
   [
     "addFloor",
+    "peakAuthorReply",
     "alignPush",
     "hideLongReplyId",
     "highlightAuthor",
@@ -38,7 +39,10 @@ chrome.storage.sync.get(
   (items) => {
     if (items.addFloor) {
       addFloor(pushes);
-      peakAuthorReply(pushes, idElMap);
+
+      if (items.peakAuthorReply) {
+        peakAuthorReply(pushes, idElMap);
+      }
     }
 
     if (items.alignPush) {

@@ -1,6 +1,7 @@
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.set({
     addFloor: true,
+    peakAuthorReply: true,
     alignPush: true,
     hideLongReplyId: true,
     highlightAuthor: true,

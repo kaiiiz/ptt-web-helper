@@ -2,8 +2,38 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import CSS from "csstype";
 
+interface OptionProps {
+  checked: boolean;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  text: string;
+  disabled?: boolean;
+}
+
+const hlChildOptions: CSS.Properties = {
+  marginLeft: "20px",
+};
+
+const Option = (props: OptionProps) => {
+  return (
+    <>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked={props.checked}
+            onChange={props.onChange}
+            disabled={props.disabled ? props.disabled : false}
+          />
+          {props.text}
+        </label>
+      </div>
+    </>
+  );
+};
+
 const Options = () => {
   const [addFloor, setAddFloor] = useState<boolean>(false);
+  const [peakAuthorReply, setPeakAuthorReply] = useState<boolean>(false);
   const [alignPush, setAlignPush] = useState<boolean>(false);
   const [hideLongReplyId, setHideLongReplyId] = useState<boolean>(false);
   const [highlightAuthor, setHighlightAuthor] = useState<boolean>(false);
@@ -21,6 +51,7 @@ const Options = () => {
     chrome.storage.sync.get(
       [
         "addFloor",
+        "peakAuthorReply",
         "alignPush",
         "hideLongReplyId",
         "highlightAuthor",
@@ -33,6 +64,7 @@ const Options = () => {
       ],
       (items) => {
         setAddFloor(items.addFloor);
+        setPeakAuthorReply(items.peakAuthorReply);
         setAlignPush(items.alignPush);
         setHideLongReplyId(items.hideLongReplyId);
         setHighlightAuthor(items.highlightAuthor);
@@ -51,6 +83,7 @@ const Options = () => {
     chrome.storage.sync.set(
       {
         addFloor: addFloor,
+        peakAuthorReply: peakAuthorReply,
         alignPush: alignPush,
         hideLongReplyId: hideLongReplyId,
         highlightAuthor: highlightAuthor,
@@ -72,124 +105,81 @@ const Options = () => {
     );
   };
 
-  const hlChildOptions: CSS.Properties = {
-    marginLeft: "20px",
-  };
-
   return (
     <>
       <div>
-        <label>
-          <input
-            type="checkbox"
-            checked={addFloor}
-            onChange={(event) => setAddFloor(event.target.checked)}
-          />
-          顯示樓層
-        </label>
-      </div>
-
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            checked={alignPush}
-            onChange={(event) => setAlignPush(event.target.checked)}
-          />
-          對齊推文 ID
-        </label>
-      </div>
-
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            checked={hideLongReplyId}
-            onChange={(event) => setHideLongReplyId(event.target.checked)}
-          />
-          隱藏連續推文 ID
-        </label>
-      </div>
-
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            checked={highlightAuthor}
-            onChange={(event) => setHighlightAuthor(event.target.checked)}
-          />
-          高亮作者 ID
-        </label>
-      </div>
-
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            checked={addReplyStat}
-            onChange={(event) => setAddReplyStat(event.target.checked)}
-          />
-          新增推文統計
-        </label>
-      </div>
-
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            checked={hlHover}
-            onChange={(event) => setHlHover(event.target.checked)}
-          />
-          指向推文時高亮顯示相同 ID 推文
-        </label>
-      </div>
-
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            checked={hlClick}
-            onChange={(event) => setHlClick(event.target.checked)}
-          />
-          雙擊推文時長亮顯示相同 ID 推文
-        </label>
+        <Option
+          checked={addFloor}
+          onChange={(event) => setAddFloor(event.target.checked)}
+          text="顯示樓層"
+        />
 
         <div style={hlChildOptions}>
-          <div>
-            <label>
-              <input
-                type="checkbox"
-                checked={addClearAllHlBtn && hlClick}
-                onChange={(event) => setAddClearAllHlBtn(event.target.checked)}
-                disabled={!hlClick}
-              />
-              新增清除所有長亮推文按鈕
-            </label>
-          </div>
+          <Option
+            checked={peakAuthorReply && addFloor}
+            onChange={(event) => setPeakAuthorReply(event.target.checked)}
+            text="啟用電梯模式 (快速查看同作者推文)"
+            disabled={!addFloor}
+          />
+        </div>
+      </div>
 
-          <div>
-            <label>
-              <input
-                type="checkbox"
-                checked={addFocusModeBtn && hlClick}
-                onChange={(event) => setAddFocusModeBtn(event.target.checked)}
-                disabled={!hlClick}
-              />
-              新增將非長亮推文變暗按鈕
-            </label>
-          </div>
+      <Option
+        checked={alignPush}
+        onChange={(event) => setAlignPush(event.target.checked)}
+        text="對齊推文 ID"
+      />
 
-          <div>
-            <label>
-              <input
-                type="checkbox"
-                checked={addFoldModeBtn && hlClick}
-                onChange={(event) => setAddFoldModeBtn(event.target.checked)}
-                disabled={!hlClick}
-              />
-              新增折疊非長亮推文按鈕
-            </label>
-          </div>
+      <Option
+        checked={hideLongReplyId}
+        onChange={(event) => setHideLongReplyId(event.target.checked)}
+        text="隱藏連續推文 ID"
+      />
+
+      <Option
+        checked={highlightAuthor}
+        onChange={(event) => setHighlightAuthor(event.target.checked)}
+        text="高亮作者 ID"
+      />
+
+      <Option
+        checked={addReplyStat}
+        onChange={(event) => setAddReplyStat(event.target.checked)}
+        text="新增推文統計"
+      />
+
+      <Option
+        checked={hlHover}
+        onChange={(event) => setHlHover(event.target.checked)}
+        text="指向推文時高亮顯示相同 ID 推文"
+      />
+
+      <div>
+        <Option
+          checked={hlClick}
+          onChange={(event) => setHlClick(event.target.checked)}
+          text="雙擊推文時長亮顯示相同 ID 推文"
+        />
+
+        <div style={hlChildOptions}>
+          <Option
+            checked={addClearAllHlBtn && hlClick}
+            onChange={(event) => setAddClearAllHlBtn(event.target.checked)}
+            text="新增清除所有長亮推文按鈕"
+            disabled={!hlClick}
+          />
+          <Option
+            checked={addFocusModeBtn && hlClick}
+            onChange={(event) => setAddFocusModeBtn(event.target.checked)}
+            text="新增將非長亮推文變暗按鈕"
+            disabled={!hlClick}
+          />
+          <Option
+            checked={addFoldModeBtn && hlClick}
+            onChange={(event) => setAddFoldModeBtn(event.target.checked)}
+            text="新增折疊非長亮推文按鈕"
+            disabled={!hlClick}
+          />
         </div>
       </div>
 
