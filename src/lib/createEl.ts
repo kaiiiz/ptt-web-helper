@@ -1,4 +1,6 @@
 function createFloorEl(floor: number, maxFloorDigit: number): HTMLSpanElement {
+  const wrapper = document.createElement("span");
+
   const pad = maxFloorDigit - floor.toString().length;
   const floorSpan = document.createElement("span");
   floorSpan.textContent = `${" ".repeat(pad)}${floor}F`;
@@ -8,8 +10,9 @@ function createFloorEl(floor: number, maxFloorDigit: number): HTMLSpanElement {
   anchor.id = `pwh-f${floor}`;
   anchor.classList.add("pwh-floor-anchor");
 
-  floorSpan.appendChild(anchor);
-  return floorSpan;
+  wrapper.appendChild(floorSpan);
+  wrapper.appendChild(anchor);
+  return wrapper;
 }
 
 function createMetaline(tag: string, value: string): HTMLDivElement {
