@@ -121,13 +121,6 @@ function clickFoldBtnHandler(
   }
 }
 
-function clickClearAllHlBtnHandler(): void {
-  for (const push of hlElSet) {
-    const color = push.getAttribute("data-color");
-    clearHl(push, color!);
-  }
-}
-
 function hlClick(
   pushes: HTMLCollectionOf<Element>,
   idElMap: Map<string, Array<Element>>
@@ -146,8 +139,7 @@ function addFocusModeBtn(pushes: HTMLCollectionOf<Element>): void {
   if (topbar == null) return;
 
   const btn = createBtn("icons/focus.png", "focus");
-  topbar.appendChild(btn.input);
-  topbar.appendChild(btn.label);
+  topbar.appendChild(btn.wrapper);
 
   btn.input.addEventListener("click", (e) => clickFocusBtnHandler(e, pushes));
 }
@@ -157,20 +149,31 @@ function addFoldModeBtn(pushes: HTMLCollectionOf<Element>): void {
   if (topbar == null) return;
 
   const btn = createBtn("icons/fold.png", "fold");
-  topbar.appendChild(btn.input);
-  topbar.appendChild(btn.label);
+  topbar.appendChild(btn.wrapper);
 
   btn.input.addEventListener("click", (e) => clickFoldBtnHandler(e, pushes));
 }
 
-function addClearAllHlBtn(): void {
+function addClearAllHlBtn(pushes: HTMLCollectionOf<Element>): void {
   const topbar = document.getElementById("topbar");
   if (topbar == null) return;
 
   const btn = createBtn("icons/clear.png", "clear");
-  topbar.appendChild(btn.label);
+  topbar.appendChild(btn.wrapper);
 
-  btn.label.addEventListener("click", () => clickClearAllHlBtnHandler());
+  btn.input.onclick = () => {
+    for (const push of hlElSet) {
+      const color = push.getAttribute("data-color");
+      clearHl(push, color!);
+    }
+    btn.input.checked = hlElSet.size > 0;
+  };
+
+  for (const push of pushes) {
+    push.addEventListener("dblclick", () => {
+      btn.input.checked = hlElSet.size > 0;
+    });
+  }
 }
 
 export { hlHover, hlClick, addFocusModeBtn, addFoldModeBtn, addClearAllHlBtn };

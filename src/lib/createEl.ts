@@ -27,7 +27,14 @@ function createMetaline(tag: string, value: string): HTMLDivElement {
 function createBtn(
   iconSrc: string,
   id: string
-): { label: HTMLLabelElement; input: HTMLInputElement } {
+): {
+  wrapper: HTMLDivElement;
+  label: HTMLLabelElement;
+  input: HTMLInputElement;
+} {
+  const wrapper = document.createElement("div");
+  wrapper.classList.add("pwh-topbar-btn", "right");
+
   const input = document.createElement("input");
   input.id = `pwh_btn_${id}_input`;
   input.classList.add("pwh-hidden", "pwh-topbar-btn-input");
@@ -35,7 +42,7 @@ function createBtn(
 
   const label = document.createElement("label");
   label.id = `pwh_btn_${id}_label`;
-  label.classList.add("pwh-topbar-btn", "right");
+  label.classList.add("pwh-topbar-btn-label");
   label.setAttribute("for", `pwh_btn_${id}_input`);
 
   const a = document.createElement("a");
@@ -47,7 +54,10 @@ function createBtn(
 
   a.appendChild(img);
   label.appendChild(a);
+  wrapper.appendChild(input);
+  wrapper.appendChild(label);
   return {
+    wrapper: wrapper,
     label: label,
     input: input,
   };

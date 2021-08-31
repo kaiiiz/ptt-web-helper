@@ -122,8 +122,7 @@ function peakAuthorReply(
   if (topbar == null || main == null) return;
 
   const btn = createBtn("icons/elevator.png", "elevator");
-  topbar.appendChild(btn.input);
-  topbar.appendChild(btn.label);
+  topbar.appendChild(btn.wrapper);
 
   const elevator = createElevator();
   main.appendChild(elevator);

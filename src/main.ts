@@ -69,7 +69,7 @@ chrome.storage.sync.get(
       hlClick(pushes, idElMap);
 
       if (items.addClearAllHlBtn) {
-        addClearAllHlBtn();
+        addClearAllHlBtn(pushes);
       }
 
       if (items.addFoldModeBtn) {

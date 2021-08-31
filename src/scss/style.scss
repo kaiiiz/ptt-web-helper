@@ -37,28 +37,17 @@
   display: none !important;
 }
 
-#topbar
-  #pwh_btn_focus_input:checked
-  ~ #pwh_btn_focus_label
-  > .pwh-topbar-icon-wrapper,
-#topbar
-  #pwh_btn_fold_input:checked
-  ~ #pwh_btn_fold_label
-  > .pwh-topbar-icon-wrapper,
-#topbar
-  #pwh_btn_elevator_input:checked
-  ~ #pwh_btn_elevator_label
-  > .pwh-topbar-icon-wrapper {
-  background-color: brown;
-}
-
 #topbar .pwh-topbar-btn {
   padding: 0;
-}
 
-#topbar .pwh-topbar-icon {
-  width: 20px;
-  height: 20px;
+  .pwh-topbar-btn-input:checked ~ label > .pwh-topbar-icon-wrapper {
+    background-color: brown;
+  }
+
+  .pwh-topbar-icon {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .pwh-dim-bg,
