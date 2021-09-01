@@ -22,6 +22,13 @@ import { createHlStat, createElevator } from "./lib/createEl";
 
 import { getPushes, getIdElMap } from "./lib/utils";
 
+import {
+  clickClearAllBtn,
+  clickElevatorBtn,
+  clickFocusModeBtn,
+  clickFoldModeBtn,
+} from "./lib/handler";
+
 import "./scss/style.scss";
 
 const pushes = getPushes();
@@ -51,6 +58,38 @@ const createSkeleton = (items: { [key: string]: boolean }) => {
     pwhNavContainer.appendChild(pwhNavBar);
   }
   document.body.insertBefore(pwhNavContainer, main);
+};
+
+const registShortcut = () => {
+  const navBtn = document.querySelectorAll(".pwh-nav-btn");
+  const elevator = <HTMLDivElement>document.getElementById("pwh_elevator");
+  const shortcuts = ["q", "w", "e", "r"];
+  const handlers: Array<() => void> = [];
+  for (let i = 0; i < navBtn.length; i++) {
+    const inputEl = <HTMLInputElement>navBtn[i].firstElementChild!;
+    switch (inputEl.id) {
+      case "pwh_btn_elevator_input":
+        if (elevator) handlers.push(() => clickElevatorBtn(elevator, inputEl));
+        break;
+      case "pwh_btn_clear_input":
+        handlers.push(() => clickClearAllBtn(inputEl));
+        break;
+      case "pwh_btn_fold_input":
+        handlers.push(() => clickFoldModeBtn(inputEl, pushes));
+        break;
+      case "pwh_btn_focus_input":
+        handlers.push(() => clickFocusModeBtn(inputEl, pushes));
+        break;
+    }
+  }
+
+  for (let i = 0; i < handlers.length; i++) {
+    document.body.addEventListener("keydown", (e) => {
+      if (e.key == shortcuts[i]) {
+        handlers[i]();
+      }
+    });
+  }
 };
 
 chrome.storage.sync.get(
@@ -128,5 +167,7 @@ chrome.storage.sync.get(
         addFocusModeBtn(pushes);
       }
     }
+
+    registShortcut();
   }
 );

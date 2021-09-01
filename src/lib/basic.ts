@@ -130,11 +130,6 @@ function peakAuthorReply(
   btn.input.addEventListener("click", () =>
     clickElevatorBtn(elevator, elevatorInput)
   );
-  document.body.addEventListener("keydown", (e) => {
-    if (e.key == "e") {
-      clickElevatorBtn(elevator, elevatorInput);
-    }
-  });
 
   for (const push of pushes) {
     const uidEl = push.querySelector<HTMLElement>(".push-userid");

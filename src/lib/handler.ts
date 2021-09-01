@@ -60,9 +60,15 @@ const clickFocusModeBtn = (
   btnInput: HTMLInputElement,
   pushes: Array<HTMLElement>
 ): void => {
-  if (btnInput.checked) {
+  if (enableFocusMode) {
+    // remove dim
+    const dimEl = document.querySelectorAll(".pwh-dim-bg");
+    for (const el of dimEl) {
+      el.classList.remove("pwh-dim-bg");
+    }
+    btnInput.checked = false;
+  } else {
     // dim non highlight reply
-    enableFocusMode = true;
     for (const push of pushes) {
       const uid = push.querySelector(".push-userid")?.textContent?.trim();
       if (uid == null) continue;
@@ -70,23 +76,24 @@ const clickFocusModeBtn = (
         push.classList.add("pwh-dim-bg");
       }
     }
-  } else {
-    // remove dim
-    enableFocusMode = false;
-    const dimEl = document.querySelectorAll(".pwh-dim-bg");
-    for (const el of dimEl) {
-      el.classList.remove("pwh-dim-bg");
-    }
+    btnInput.checked = true;
   }
+  enableFocusMode = !enableFocusMode;
 };
 
 const clickFoldModeBtn = (
   btnInput: HTMLInputElement,
   pushes: Array<HTMLElement>
 ): void => {
-  if (btnInput.checked) {
+  if (enableFoldMode) {
+    // remove fold
+    const dimEl = document.querySelectorAll(".pwh-fold-reply");
+    for (const el of dimEl) {
+      el.classList.remove("pwh-fold-reply");
+    }
+    btnInput.checked = false;
+  } else {
     // fold non highlight reply
-    enableFoldMode = true;
     for (const push of pushes) {
       const uid = push.querySelector(".push-userid")?.textContent?.trim();
       if (uid == null) continue;
@@ -94,14 +101,9 @@ const clickFoldModeBtn = (
         push.classList.add("pwh-fold-reply");
       }
     }
-  } else {
-    // remove fold
-    enableFoldMode = false;
-    const dimEl = document.querySelectorAll(".pwh-fold-reply");
-    for (const el of dimEl) {
-      el.classList.remove("pwh-fold-reply");
-    }
+    btnInput.checked = true;
   }
+  enableFoldMode = !enableFoldMode;
 };
 
 const clickElevatorBtn = (
