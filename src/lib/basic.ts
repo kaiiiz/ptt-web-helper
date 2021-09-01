@@ -118,8 +118,18 @@ function peakAuthorReply(
   navigation.appendChild(btn.wrapper);
 
   const elevator = <HTMLDivElement>document.getElementById("pwh_elevator")!;
+  const elevatorInput = <HTMLInputElement>(
+    document.getElementById("pwh_btn_elevator_input")
+  );
 
-  btn.input.addEventListener("click", () => clickElevatorBtn(elevator));
+  btn.input.addEventListener("click", () =>
+    clickElevatorBtn(elevator, elevatorInput)
+  );
+  document.body.addEventListener("keydown", (e) => {
+    if (e.key == "e") {
+      clickElevatorBtn(elevator, elevatorInput);
+    }
+  });
 
   for (const push of pushes) {
     const uidEl = push.querySelector<HTMLElement>(".push-userid");
@@ -127,9 +137,10 @@ function peakAuthorReply(
     const dataFloor = push.getAttribute("data-floor");
     if (uidEl == null || uid == null || dataFloor == null) continue;
     uidEl.classList.add("pwh-peak-author");
-    uidEl.addEventListener("click", () =>
-      updateElevator(idElMap, elevator, btn.input, uid, +dataFloor)
-    );
+    uidEl.addEventListener("click", () => {
+      elevatorInput.checked = true;
+      updateElevator(idElMap, elevator, btn.input, uid, +dataFloor);
+    });
   }
 }
 

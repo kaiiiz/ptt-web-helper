@@ -103,11 +103,16 @@ const clickFoldModeBtn = (
   }
 };
 
-const clickElevatorBtn = (elevator: HTMLDivElement): void => {
+const clickElevatorBtn = (
+  elevator: HTMLDivElement,
+  btnInput: HTMLInputElement
+): void => {
   if (enableElevator) {
     elevator.classList.add("pwh-hidden");
+    btnInput.checked = false;
   } else {
     elevator.classList.remove("pwh-hidden");
+    btnInput.checked = true;
   }
   enableElevator = !enableElevator;
 };
@@ -163,7 +168,6 @@ const updateElevator = (
 
   elevator.classList.remove("pwh-hidden");
   elevator.setAttribute("data-uid", uid);
-  elevatorInput.checked = true;
 
   // calculate floor padding
   const uidPushes = idElMap.get(uid)!;
