@@ -73,7 +73,7 @@ function createBtn(
 
 function createElevator(): HTMLDivElement {
   const elevator = document.createElement("div");
-  elevator.id = "pwh-elevator";
+  elevator.id = "pwh_elevator";
   elevator.classList.add("bbs-content");
   elevator.classList.add("pwh-hidden");
 
@@ -132,10 +132,35 @@ function createElevatorEnt(
   return entAnchor;
 }
 
+function createHlStat(): HTMLDivElement {
+  const hlStat = document.createElement("div");
+  hlStat.id = "pwh_hl_stat";
+  hlStat.classList.add("bbs-content");
+  return hlStat;
+}
+
+function createHlStatEnt(uid: string, color: string): HTMLDivElement {
+  const hlStatEnt = document.createElement("div");
+  hlStatEnt.classList.add("pwh-hl-stat-ent");
+
+  const hlColor = document.createElement("div");
+  hlColor.classList.add("pwh-hl-stat-ent-color");
+  hlColor.style.backgroundColor = color;
+
+  const hlUid = document.createElement("span");
+  hlUid.textContent = uid;
+
+  hlStatEnt.appendChild(hlColor);
+  hlStatEnt.appendChild(hlUid);
+  return hlStatEnt;
+}
+
 export {
   createFloorEl,
   createMetaline,
   createBtn,
   createElevator,
   createElevatorEnt,
+  createHlStat,
+  createHlStatEnt,
 };

@@ -13,6 +13,7 @@ import {
   addFoldModeBtn,
   addFocusModeBtn,
   addClearAllHlBtn,
+  showHlStat,
 } from "./lib/hl";
 
 import { getIdElMap } from "./lib/utils";
@@ -69,6 +70,8 @@ chrome.storage.sync.get(
 
     if (items.hlClick) {
       hlClick(pushes, idElMap);
+
+      showHlStat(pushes);
 
       if (items.addClearAllHlBtn) {
         addClearAllHlBtn(pushes);

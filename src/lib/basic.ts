@@ -2,10 +2,10 @@ import {
   createFloorEl,
   createMetaline,
   createElevator,
-  createElevatorEnt,
   createBtn,
 } from "./createEl";
 import { getFirstElByXPath } from "./utils";
+import { updatePeak, clickElevatorBtn } from "./handler";
 
 function addFloor(pushes: HTMLCollectionOf<HTMLElement>): void {
   let floor = 1;
@@ -111,8 +111,6 @@ function addReplyStat(pushes: HTMLCollectionOf<HTMLElement>): void {
   main.insertBefore(peopleMetaline, voteMetaline);
 }
 
-let elevatorOn = false;
-
 function peakAuthorReply(
   pushes: HTMLCollectionOf<HTMLElement>,
   idElMap: Map<string, Array<HTMLElement>>
@@ -127,60 +125,7 @@ function peakAuthorReply(
   const elevator = createElevator();
   main.appendChild(elevator);
 
-  btn.input.onclick = () => {
-    if (elevatorOn) {
-      elevator.classList.add("pwh-hidden");
-    } else {
-      elevator.classList.remove("pwh-hidden");
-    }
-    elevatorOn = !elevatorOn;
-  };
-
-  const uidClickHandler = (uid: string, targetFloor: number) => {
-    // clear previous result
-    while (elevator.firstChild) {
-      elevator.removeChild(elevator.lastChild!);
-    }
-
-    elevator.classList.remove("pwh-hidden");
-    elevatorOn = true;
-    btn.input.checked = true;
-    const uidPushes = idElMap.get(uid)!;
-
-    // calculate floor padding
-    let uidMaxFloorDigits = 0;
-    for (const uidPush of uidPushes) {
-      const dataFloor = uidPush.getAttribute("data-floor");
-      if (dataFloor == null) continue;
-      uidMaxFloorDigits = Math.max(uidMaxFloorDigits, dataFloor.length);
-    }
-
-    let targetScrollPos = 0;
-    for (const uidPush of uidPushes) {
-      const dataFloor = uidPush.getAttribute("data-floor");
-      const tag = uidPush.querySelector(".push-tag")?.textContent?.trim();
-      const text = uidPush.querySelector(".push-content")?.textContent?.trim();
-      const ip = uidPush.querySelector(".push-ipdatetime")?.textContent?.trim();
-      if (dataFloor == null || tag == null || text == null || ip == null) {
-        continue;
-      }
-
-      const ent = createElevatorEnt(
-        +dataFloor,
-        uidMaxFloorDigits - dataFloor.length,
-        tag,
-        uid,
-        text,
-        ip
-      );
-      elevator.appendChild(ent);
-
-      if (+dataFloor == targetFloor) {
-        targetScrollPos = ent.offsetTop;
-      }
-    }
-    elevator.scrollTop = targetScrollPos;
-  };
+  btn.input.addEventListener("click", () => clickElevatorBtn(elevator));
 
   for (const push of pushes) {
     const uidEl = push.querySelector<HTMLElement>(".push-userid");
@@ -188,7 +133,9 @@ function peakAuthorReply(
     const dataFloor = push.getAttribute("data-floor");
     if (uidEl == null || uid == null || dataFloor == null) continue;
     uidEl.classList.add("pwh-peak-author");
-    uidEl.addEventListener("click", () => uidClickHandler(uid, +dataFloor));
+    uidEl.addEventListener("click", () =>
+      updatePeak(idElMap, elevator, btn.input, uid, +dataFloor)
+    );
   }
 }
 

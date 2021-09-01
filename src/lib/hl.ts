@@ -1,5 +1,16 @@
-import { getHlBgColor, removeHlBgColor } from "./utils";
-import { createBtn } from "./createEl";
+import { createBtn, createHlStat } from "./createEl";
+import {
+  updateClearAllBtn,
+  clickClearAllBtn,
+  mouseEnterPush,
+  mouseLeavePush,
+  dblclickPush,
+  clickFocusModeBtn,
+  clickFoldModeBtn,
+  updateHlStat,
+} from "./handler";
+
+const hlIdMap = new Map<string, { el: Set<HTMLElement>; color: string }>();
 
 function hlHover(
   pushes: HTMLCollectionOf<HTMLElement>,
@@ -9,47 +20,10 @@ function hlHover(
     const uid = push.querySelector(".push-userid")?.textContent?.trim();
     if (uid == null) continue;
     const uidPushes = idElMap.get(uid);
+    if (uidPushes == null) continue;
 
-    const mouseEnterHandler = () => {
-      if (uidPushes == null) return;
-      for (const uidPush of uidPushes) {
-        uidPush.classList.add("pwh-hl-hover");
-      }
-    };
-    const mouseLeaveHandler = () => {
-      if (uidPushes == null) return;
-      for (const uidPush of uidPushes) {
-        uidPush.classList.remove("pwh-hl-hover");
-      }
-    };
-    push.addEventListener("mouseenter", mouseEnterHandler);
-    push.addEventListener("mouseleave", mouseLeaveHandler);
-  }
-}
-
-const hlElSet = new Set<HTMLElement>(); // maintain in clickHlHandler
-let focusModeOn = false;
-let foldModeOn = false;
-
-function clearHl(push: HTMLElement, color: string): void {
-  push.style.backgroundColor = "";
-  push.removeAttribute("data-color");
-  hlElSet.delete(push);
-  if (focusModeOn) {
-    push.classList.add("pwh-dim-bg");
-  }
-  if (foldModeOn) {
-    push.classList.add("pwh-fold-reply");
-  }
-  removeHlBgColor(color);
-}
-
-function addHl(push: HTMLElement, color: string): void {
-  push.style.backgroundColor = color;
-  push.setAttribute("data-color", color);
-  hlElSet.add(push);
-  if (focusModeOn) {
-    push.classList.remove("pwh-dim-bg");
+    push.addEventListener("mouseenter", () => mouseEnterPush(uidPushes));
+    push.addEventListener("mouseleave", () => mouseLeavePush(uidPushes));
   }
 }
 
@@ -57,34 +31,13 @@ function hlClick(
   pushes: HTMLCollectionOf<HTMLElement>,
   idElMap: Map<string, Array<HTMLElement>>
 ): void {
-  const clickHlHandler = (uidPushes: Array<HTMLElement>): void => {
-    let hasColor = false;
-    const candidateColor = getHlBgColor();
-
-    for (const uidPush of uidPushes) {
-      const dataColor = uidPush.getAttribute("data-color");
-      if (dataColor) {
-        // remove highlight push
-        clearHl(uidPush, dataColor);
-        hasColor = true;
-      } else {
-        // highlight push
-        addHl(uidPush, candidateColor);
-      }
-    }
-
-    // remove candidate color if trigger remove color logic
-    if (hasColor) {
-      removeHlBgColor(candidateColor);
-    }
-  };
-
   for (const push of pushes) {
     const uid = push.querySelector(".push-userid")?.textContent?.trim();
     if (uid == null) continue;
     const uidPushes = idElMap.get(uid);
     if (uidPushes == null) continue;
-    push.addEventListener("dblclick", () => clickHlHandler(uidPushes!));
+
+    push.addEventListener("dblclick", () => dblclickPush(uidPushes));
   }
 }
 
@@ -95,25 +48,9 @@ function addFocusModeBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
   const btn = createBtn("icons/focus.png", "focus");
   navigation.appendChild(btn.wrapper);
 
-  btn.input.addEventListener("click", (e) => {
-    const isChecked = (e.target as HTMLInputElement).checked;
-    if (isChecked) {
-      // dim non highlight reply
-      focusModeOn = true;
-      for (const push of pushes) {
-        if (!hlElSet.has(push)) {
-          push.classList.add("pwh-dim-bg");
-        }
-      }
-    } else {
-      // remove dim
-      focusModeOn = false;
-      const dimEl = document.querySelectorAll(".pwh-dim-bg");
-      for (const el of dimEl) {
-        el.classList.remove("pwh-dim-bg");
-      }
-    }
-  });
+  btn.input.addEventListener("click", (e) =>
+    clickFocusModeBtn(e.target as HTMLInputElement, pushes)
+  );
 }
 
 function addFoldModeBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
@@ -123,25 +60,9 @@ function addFoldModeBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
   const btn = createBtn("icons/fold.png", "fold");
   navigation.appendChild(btn.wrapper);
 
-  btn.input.addEventListener("click", (e) => {
-    const isChecked = (e.target as HTMLInputElement).checked;
-    if (isChecked) {
-      // fold non highlight reply
-      foldModeOn = true;
-      for (const push of pushes) {
-        if (!hlElSet.has(push)) {
-          push.classList.add("pwh-fold-reply");
-        }
-      }
-    } else {
-      // remove fold
-      foldModeOn = false;
-      const dimEl = document.querySelectorAll(".pwh-fold-reply");
-      for (const el of dimEl) {
-        el.classList.remove("pwh-fold-reply");
-      }
-    }
-  });
+  btn.input.addEventListener("click", (e) =>
+    clickFoldModeBtn(e.target as HTMLInputElement, pushes)
+  );
 }
 
 function addClearAllHlBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
@@ -151,19 +72,31 @@ function addClearAllHlBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
   const btn = createBtn("icons/clear.png", "clear");
   navigation.appendChild(btn.wrapper);
 
-  btn.input.onclick = () => {
-    for (const push of hlElSet) {
-      const color = push.getAttribute("data-color");
-      clearHl(push, color!);
-    }
-    btn.input.checked = hlElSet.size > 0;
-  };
+  btn.input.addEventListener("click", () => clickClearAllBtn(btn.input));
 
   for (const push of pushes) {
-    push.addEventListener("dblclick", () => {
-      btn.input.checked = hlElSet.size > 0;
-    });
+    push.addEventListener("dblclick", () => updateClearAllBtn(btn.input));
   }
 }
 
-export { hlHover, hlClick, addFocusModeBtn, addFoldModeBtn, addClearAllHlBtn };
+function showHlStat(pushes: HTMLCollectionOf<HTMLElement>): void {
+  const main = document.getElementById("main-container");
+  if (main == null) return;
+
+  const hlStat = createHlStat();
+  main.appendChild(hlStat);
+
+  for (const push of pushes) {
+    push.addEventListener("dblclick", () => updateHlStat(hlStat));
+  }
+}
+
+export {
+  hlIdMap,
+  hlHover,
+  hlClick,
+  addFocusModeBtn,
+  addFoldModeBtn,
+  addClearAllHlBtn,
+  showHlStat,
+};

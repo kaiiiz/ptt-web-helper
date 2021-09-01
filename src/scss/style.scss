@@ -60,7 +60,7 @@
   display: none;
 }
 
-#pwh-elevator {
+#pwh_elevator {
   position: fixed;
   bottom: 60px;
   left: 0;
@@ -109,6 +109,41 @@
 
     .pwh-elevator-ent-author {
       margin-right: 4px;
+    }
+  }
+}
+
+#pwh_hl_stat {
+  position: fixed;
+  bottom: 60px;
+  left: 20px;
+  z-index: 101;
+  max-width: 15%;
+  max-height: 80%;
+  overflow-y: auto;
+  background-color: black;
+  border-radius: 0.375rem;
+  border: white solid 1px;
+  font-size: 1.1rem;
+  overflow: auto;
+
+  .pwh-hl-stat-ent {
+    color: white;
+    padding: 0.3rem 0.75rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    .pwh-hl-stat-ent-color {
+      display: inline-block;
+      border: white solid 1px;
+      width: 0.75rem;
+      height: 0.75rem;
+      margin-right: 0.5rem;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.15);
     }
   }
 }
