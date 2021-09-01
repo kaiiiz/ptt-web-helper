@@ -64,6 +64,7 @@ chrome.storage.sync.get(
     "hideLongReplyId",
     "highlightAuthor",
     "addReplyStat",
+    "quickCopy",
     "hlHover",
     "hlClick",
     "showHlStat",
@@ -82,7 +83,9 @@ chrome.storage.sync.get(
       }
     }
 
-    quickCopy(pushes);
+    if (items.quickCopy) {
+      quickCopy(pushes);
+    }
 
     if (items.alignPush) {
       alignPush(pushes);

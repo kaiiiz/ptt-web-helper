@@ -39,6 +39,7 @@ const Options = () => {
   const [hideLongReplyId, setHideLongReplyId] = useState<boolean>(false);
   const [highlightAuthor, setHighlightAuthor] = useState<boolean>(false);
   const [addReplyStat, setAddReplyStat] = useState<boolean>(false);
+  const [quickCopy, setQuickCopy] = useState<boolean>(false);
   const [hlHover, setHlHover] = useState<boolean>(false);
   const [hlClick, setHlClick] = useState<boolean>(false);
   const [showHlStat, setShowHlStat] = useState<boolean>(false);
@@ -59,6 +60,7 @@ const Options = () => {
         "hideLongReplyId",
         "highlightAuthor",
         "addReplyStat",
+        "quickCopy",
         "hlHover",
         "hlClick",
         "showHlStat",
@@ -74,6 +76,7 @@ const Options = () => {
         setHideLongReplyId(items.hideLongReplyId);
         setHighlightAuthor(items.highlightAuthor);
         setAddReplyStat(items.addReplyStat);
+        setQuickCopy(items.quickCopy);
         setHlHover(items.hlHover);
         setHlClick(items.hlClick);
         setShowHlStat(items.showHlStat);
@@ -95,6 +98,7 @@ const Options = () => {
         hideLongReplyId: hideLongReplyId,
         highlightAuthor: highlightAuthor,
         addReplyStat: addReplyStat,
+        quickCopy: quickCopy,
         hlHover: hlHover,
         hlClick: hlClick,
         showHlStat: showHlStat,
@@ -159,7 +163,13 @@ const Options = () => {
       <Option
         checked={addReplyStat}
         onChange={(event) => setAddReplyStat(event.target.checked)}
-        text="新增推文統計"
+        text="新增推文統計（顯示不重複推噓/人數統計）"
+      />
+
+      <Option
+        checked={quickCopy}
+        onChange={(event) => setQuickCopy(event.target.checked)}
+        text="啟用快速複製（點擊一則推文後按 y 複製相鄰的同作者推文）"
       />
 
       <Option

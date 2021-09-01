@@ -7,6 +7,7 @@ chrome.runtime.onInstalled.addListener(() => {
     hideLongReplyId: true,
     highlightAuthor: true,
     addReplyStat: true,
+    quickCopy: true,
     hlHover: true,
     hlClick: true,
     showHlStat: true,

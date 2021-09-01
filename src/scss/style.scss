@@ -1,9 +1,10 @@
-.push {
+.push:focus {
   outline: none;
+  background-color: rgb(69, 69, 69) !important;
 }
 
 .push.pwh-copy-effect {
-  background-color: rgb(74, 74, 74) !important;
+  background-color: rgb(69, 69, 69) !important;
 }
 
 .pwh-floor {
