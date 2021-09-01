@@ -5,6 +5,7 @@ import {
   highlightAuthor,
   addReplyStat,
   peakAuthorReply,
+  addIdPushCount,
 } from "./lib/basic";
 
 import {
@@ -58,6 +59,7 @@ chrome.storage.sync.get(
     "addFloor",
     "peakAuthorReply",
     "alignPush",
+    "showIdPushCount",
     "hideLongReplyId",
     "highlightAuthor",
     "addReplyStat",
@@ -81,6 +83,10 @@ chrome.storage.sync.get(
 
     if (items.alignPush) {
       alignPush(pushes);
+    }
+
+    if (items.showIdPushCount) {
+      addIdPushCount(idElMap);
     }
 
     if (items.hideLongReplyId) {

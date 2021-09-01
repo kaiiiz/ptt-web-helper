@@ -154,6 +154,13 @@ function createHlStatEnt(uid: string, color: string): HTMLDivElement {
   return hlStatEnt;
 }
 
+function createPushCount(count: number, total: number): HTMLSpanElement {
+  const pushcount = document.createElement("span");
+  pushcount.textContent = `(${count}/${total})`;
+  pushcount.classList.add("pwh-push-count", "pwh-hidden");
+  return pushcount;
+}
+
 export {
   createFloorEl,
   createMetaline,
@@ -162,4 +169,5 @@ export {
   createElevatorEnt,
   createHlStat,
   createHlStatEnt,
+  createPushCount,
 };

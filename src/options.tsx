@@ -35,6 +35,7 @@ const Options = () => {
   const [addFloor, setAddFloor] = useState<boolean>(false);
   const [peakAuthorReply, setPeakAuthorReply] = useState<boolean>(false);
   const [alignPush, setAlignPush] = useState<boolean>(false);
+  const [showIdPushCount, setShowIdPushCount] = useState<boolean>(false);
   const [hideLongReplyId, setHideLongReplyId] = useState<boolean>(false);
   const [highlightAuthor, setHighlightAuthor] = useState<boolean>(false);
   const [addReplyStat, setAddReplyStat] = useState<boolean>(false);
@@ -54,6 +55,7 @@ const Options = () => {
         "addFloor",
         "peakAuthorReply",
         "alignPush",
+        "showIdPushCount",
         "hideLongReplyId",
         "highlightAuthor",
         "addReplyStat",
@@ -68,6 +70,7 @@ const Options = () => {
         setAddFloor(items.addFloor);
         setPeakAuthorReply(items.peakAuthorReply);
         setAlignPush(items.alignPush);
+        setShowIdPushCount(items.showIdPushCount);
         setHideLongReplyId(items.hideLongReplyId);
         setHighlightAuthor(items.highlightAuthor);
         setAddReplyStat(items.addReplyStat);
@@ -88,6 +91,7 @@ const Options = () => {
         addFloor: addFloor,
         peakAuthorReply: peakAuthorReply,
         alignPush: alignPush,
+        showIdPushCount: showIdPushCount,
         hideLongReplyId: hideLongReplyId,
         highlightAuthor: highlightAuthor,
         addReplyStat: addReplyStat,
@@ -135,6 +139,12 @@ const Options = () => {
       />
 
       <Option
+        checked={showIdPushCount}
+        onChange={(event) => setShowIdPushCount(event.target.checked)}
+        text="顯示滑鼠指向的 ID 的推文統計（方便決定使否要長亮）"
+      />
+
+      <Option
         checked={hideLongReplyId}
         onChange={(event) => setHideLongReplyId(event.target.checked)}
         text="隱藏連續推文 ID"
@@ -169,7 +179,7 @@ const Options = () => {
           <Option
             checked={showHlStat && hlClick}
             onChange={(event) => setShowHlStat(event.target.checked)}
-            text="顯示目前長亮 ID"
+            text="下方狀態列顯示目前長亮 ID"
             disabled={!hlClick}
           />
           <Option

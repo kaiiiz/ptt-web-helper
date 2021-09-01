@@ -3,6 +3,7 @@ chrome.runtime.onInstalled.addListener(() => {
     addFloor: true,
     peakAuthorReply: true,
     alignPush: true,
+    showIdPushCount: true,
     hideLongReplyId: true,
     highlightAuthor: true,
     addReplyStat: true,

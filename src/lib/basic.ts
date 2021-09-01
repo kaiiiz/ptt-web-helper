@@ -1,4 +1,9 @@
-import { createFloorEl, createMetaline, createBtn } from "./createEl";
+import {
+  createFloorEl,
+  createMetaline,
+  createBtn,
+  createPushCount,
+} from "./createEl";
 import { getFirstElByXPath } from "./utils";
 import { updateElevator, clickElevatorBtn } from "./handler";
 
@@ -144,6 +149,22 @@ function peakAuthorReply(
   }
 }
 
+function addIdPushCount(idElMap: Map<string, Array<HTMLElement>>): void {
+  for (const uidPushes of idElMap.values()) {
+    const total = uidPushes.length;
+    for (let i = 0; i < total; i++) {
+      const pushCount = createPushCount(i + 1, total);
+      uidPushes[i].appendChild(pushCount);
+      uidPushes[i].addEventListener("mouseenter", () => {
+        pushCount.classList.remove("pwh-hidden");
+      });
+      uidPushes[i].addEventListener("mouseleave", () => {
+        pushCount.classList.add("pwh-hidden");
+      });
+    }
+  }
+}
+
 export {
   addFloor,
   alignPush,
@@ -151,4 +172,5 @@ export {
   highlightAuthor,
   addReplyStat,
   peakAuthorReply,
+  addIdPushCount,
 };
