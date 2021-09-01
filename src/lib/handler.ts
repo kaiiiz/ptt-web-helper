@@ -58,7 +58,7 @@ const dblclickPush = (uidPushes: Array<HTMLElement>): void => {
 
 const clickFocusModeBtn = (
   btnInput: HTMLInputElement,
-  pushes: HTMLCollectionOf<HTMLElement>
+  pushes: Array<HTMLElement>
 ): void => {
   if (btnInput.checked) {
     // dim non highlight reply
@@ -82,7 +82,7 @@ const clickFocusModeBtn = (
 
 const clickFoldModeBtn = (
   btnInput: HTMLInputElement,
-  pushes: HTMLCollectionOf<HTMLElement>
+  pushes: Array<HTMLElement>
 ): void => {
   if (btnInput.checked) {
     // fold non highlight reply
@@ -218,7 +218,7 @@ const updateElevator = (
 const keydownCopy = (
   from: HTMLElement,
   fromIdx: number,
-  pushes: HTMLCollectionOf<HTMLElement>
+  pushes: Array<HTMLElement>
 ): void => {
   const fromUid = from.querySelector(".push-userid")?.textContent?.trim();
   if (fromUid == null) return;

@@ -7,7 +7,7 @@ import {
 import { getFirstElByXPath } from "./utils";
 import { updateElevator, clickElevatorBtn, keydownCopy } from "./handler";
 
-function addFloor(pushes: HTMLCollectionOf<HTMLElement>): void {
+function addFloor(pushes: Array<HTMLElement>): void {
   let floor = 1;
   const maxFloorDigits = pushes.length.toString().length;
   for (const push of pushes) {
@@ -17,7 +17,7 @@ function addFloor(pushes: HTMLCollectionOf<HTMLElement>): void {
   }
 }
 
-function alignPush(pushes: HTMLCollectionOf<HTMLElement>): void {
+function alignPush(pushes: Array<HTMLElement>): void {
   let maxUidLen = 0;
   for (const push of pushes) {
     const uidEl = push.querySelector(".push-userid");
@@ -36,7 +36,7 @@ function alignPush(pushes: HTMLCollectionOf<HTMLElement>): void {
   }
 }
 
-function hideLongReplyId(pushes: HTMLCollectionOf<HTMLElement>): void {
+function hideLongReplyId(pushes: Array<HTMLElement>): void {
   let prevUid = "";
   for (const push of pushes) {
     const uidEl = push.querySelector(".push-userid");
@@ -49,7 +49,7 @@ function hideLongReplyId(pushes: HTMLCollectionOf<HTMLElement>): void {
   }
 }
 
-function highlightAuthor(pushes: HTMLCollectionOf<HTMLElement>): void {
+function highlightAuthor(pushes: Array<HTMLElement>): void {
   // get author metadata
   const authorEl = getFirstElByXPath(
     "//div[@class='article-metaline']/span[text()='作者']"
@@ -72,7 +72,7 @@ function highlightAuthor(pushes: HTMLCollectionOf<HTMLElement>): void {
   }
 }
 
-function addReplyStat(pushes: HTMLCollectionOf<HTMLElement>): void {
+function addReplyStat(pushes: Array<HTMLElement>): void {
   const idStat = new Map();
   for (const push of pushes) {
     const uid = push.querySelector(".push-userid")?.textContent?.trim();
@@ -112,7 +112,7 @@ function addReplyStat(pushes: HTMLCollectionOf<HTMLElement>): void {
 }
 
 function peakAuthorReply(
-  pushes: HTMLCollectionOf<HTMLElement>,
+  pushes: Array<HTMLElement>,
   idElMap: Map<string, Array<HTMLElement>>
 ): void {
   const navigation = document.getElementById("navigation");
@@ -165,7 +165,7 @@ function addIdPushCount(idElMap: Map<string, Array<HTMLElement>>): void {
   }
 }
 
-function quickCopy(pushes: HTMLCollectionOf<HTMLElement>): void {
+function quickCopy(pushes: Array<HTMLElement>): void {
   for (let i = 0; i < pushes.length; i++) {
     const push = pushes[i];
     push.tabIndex = 0;

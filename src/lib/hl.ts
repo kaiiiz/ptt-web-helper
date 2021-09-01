@@ -1,4 +1,4 @@
-import { createBtn, createHlStat } from "./createEl";
+import { createBtn } from "./createEl";
 import {
   updateClearAllBtn,
   clickClearAllBtn,
@@ -13,7 +13,7 @@ import {
 const hlIdMap = new Map<string, { el: Set<HTMLElement>; color: string }>();
 
 function hlHover(
-  pushes: HTMLCollectionOf<HTMLElement>,
+  pushes: Array<HTMLElement>,
   idElMap: Map<string, Array<HTMLElement>>
 ): void {
   for (const push of pushes) {
@@ -28,7 +28,7 @@ function hlHover(
 }
 
 function hlClick(
-  pushes: HTMLCollectionOf<HTMLElement>,
+  pushes: Array<HTMLElement>,
   idElMap: Map<string, Array<HTMLElement>>
 ): void {
   for (const push of pushes) {
@@ -41,7 +41,7 @@ function hlClick(
   }
 }
 
-function addFocusModeBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
+function addFocusModeBtn(pushes: Array<HTMLElement>): void {
   const navigation = document.getElementById("navigation");
   if (navigation == null) return;
 
@@ -53,7 +53,7 @@ function addFocusModeBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
   );
 }
 
-function addFoldModeBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
+function addFoldModeBtn(pushes: Array<HTMLElement>): void {
   const navigation = document.getElementById("navigation");
   if (navigation == null) return;
 
@@ -66,7 +66,7 @@ function addFoldModeBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
 }
 
 function addClearAllHlBtn(
-  pushes: HTMLCollectionOf<HTMLElement>,
+  pushes: Array<HTMLElement>,
   idElMap: Map<string, Array<HTMLElement>>
 ): void {
   const navigation = document.getElementById("navigation");
@@ -88,7 +88,7 @@ function addClearAllHlBtn(
 }
 
 function showHlStat(
-  pushes: HTMLCollectionOf<HTMLElement>,
+  pushes: Array<HTMLElement>,
   idElMap: Map<string, Array<HTMLElement>>
 ): void {
   const hlStat = <HTMLDivElement>document.getElementById("pwh_hl_stat")!;

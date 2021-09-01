@@ -1,5 +1,21 @@
 import randomColor from "randomcolor";
 
+function getPushes(): Array<HTMLElement> {
+  const pushes = <HTMLCollectionOf<HTMLElement>>(
+    document.getElementsByClassName("push")
+  );
+  const lastBarrier = <HTMLElement>(
+    getFirstElByXPath("//span[contains(text(), '發信站')][last()]")
+  );
+  let firstPushIdx = 0;
+  let firstPush = pushes[firstPushIdx];
+  while (firstPush.offsetTop < lastBarrier.offsetTop) {
+    firstPushIdx++;
+    firstPush = pushes[firstPushIdx];
+  }
+  return [...pushes].slice(firstPushIdx);
+}
+
 function getFirstElByXPath(path: string): Node | null {
   return document.evaluate(
     path,
@@ -11,7 +27,7 @@ function getFirstElByXPath(path: string): Node | null {
 }
 
 function getIdElMap(
-  pushes: HTMLCollectionOf<HTMLElement>
+  pushes: Array<HTMLElement>
 ): Map<string, Array<HTMLElement>> {
   const idElMap = new Map<string, Array<HTMLElement>>();
   for (const push of pushes) {
@@ -88,6 +104,7 @@ function pushToText(push: HTMLElement): string {
 }
 
 export {
+  getPushes,
   getFirstElByXPath,
   getIdElMap,
   getHlBgColor,

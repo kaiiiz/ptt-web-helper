@@ -20,13 +20,11 @@ import {
 
 import { createHlStat, createElevator } from "./lib/createEl";
 
-import { getIdElMap } from "./lib/utils";
+import { getPushes, getIdElMap } from "./lib/utils";
 
 import "./scss/style.scss";
 
-const pushes = <HTMLCollectionOf<HTMLElement>>(
-  document.getElementsByClassName("push")
-);
+const pushes = getPushes();
 const idElMap = getIdElMap(pushes);
 
 const createSkeleton = (items: { [key: string]: boolean }) => {
