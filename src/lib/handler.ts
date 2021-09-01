@@ -1,6 +1,7 @@
 import { hlIdMap } from "./hl";
-import { getHlBgColor, removeHlBgColor } from "./utils";
+import { getHlBgColor, removeHlBgColor, pushToText } from "./utils";
 import { createHlStatEnt, createElevatorEnt } from "./createEl";
+import * as clipboard from "clipboard-polyfill/text";
 
 let enableFocusMode = false;
 let enableFoldMode = false;
@@ -214,6 +215,46 @@ const updateElevator = (
   enableElevator = true;
 };
 
+const keydownCopy = (
+  from: HTMLElement,
+  fromIdx: number,
+  pushes: HTMLCollectionOf<HTMLElement>
+): void => {
+  const fromUid = from.querySelector(".push-userid")?.textContent?.trim();
+  if (fromUid == null) return;
+
+  // check sibling of from
+  let startIdx = fromIdx;
+  let endIdx = fromIdx;
+  for (let i = fromIdx - 1; i >= 0; i--) {
+    const uid = pushes[i].querySelector(".push-userid")?.textContent?.trim();
+    if (uid == null) continue;
+    if (fromUid == uid) startIdx = i;
+    else break;
+  }
+  for (let i = fromIdx + 1; i < pushes.length; i++) {
+    const uid = pushes[i].querySelector(".push-userid")?.textContent?.trim();
+    if (uid == null) continue;
+    if (fromUid == uid) endIdx = i;
+    else break;
+  }
+
+  // construct text
+  let text = "";
+  for (let i = startIdx; i <= endIdx; i++) {
+    text += pushToText(pushes[i]);
+    pushes[i].classList.add("pwh-copy-effect");
+  }
+
+  clipboard.writeText(text).then(() => {
+    setTimeout(() => {
+      for (let i = startIdx; i <= endIdx; i++) {
+        pushes[i].classList.remove("pwh-copy-effect");
+      }
+    }, 300);
+  });
+};
+
 export {
   updateClearAllBtn,
   clickClearAllBtn,
@@ -225,6 +266,7 @@ export {
   clickElevatorBtn,
   updateHlStat,
   updateElevator,
+  keydownCopy,
 };
 
 // helper function

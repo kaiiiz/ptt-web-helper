@@ -6,6 +6,7 @@ import {
   addReplyStat,
   peakAuthorReply,
   addIdPushCount,
+  quickCopy,
 } from "./lib/basic";
 
 import {
@@ -80,6 +81,8 @@ chrome.storage.sync.get(
         peakAuthorReply(pushes, idElMap);
       }
     }
+
+    quickCopy(pushes);
 
     if (items.alignPush) {
       alignPush(pushes);

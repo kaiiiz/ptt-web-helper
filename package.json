@@ -18,6 +18,7 @@
     "url": "https://github.com/kaiiiz/ptt-web-helper.git"
   },
   "dependencies": {
+    "clipboard-polyfill": "^3.0.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "terser-webpack-plugin": "^5.1.4"

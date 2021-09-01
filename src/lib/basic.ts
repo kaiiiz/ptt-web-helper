@@ -5,7 +5,7 @@ import {
   createPushCount,
 } from "./createEl";
 import { getFirstElByXPath } from "./utils";
-import { updateElevator, clickElevatorBtn } from "./handler";
+import { updateElevator, clickElevatorBtn, keydownCopy } from "./handler";
 
 function addFloor(pushes: HTMLCollectionOf<HTMLElement>): void {
   let floor = 1;
@@ -165,6 +165,18 @@ function addIdPushCount(idElMap: Map<string, Array<HTMLElement>>): void {
   }
 }
 
+function quickCopy(pushes: HTMLCollectionOf<HTMLElement>): void {
+  for (let i = 0; i < pushes.length; i++) {
+    const push = pushes[i];
+    push.tabIndex = 0;
+    push.addEventListener("keydown", (e) => {
+      if (e.key == "y") {
+        keydownCopy(e.target as HTMLElement, i, pushes);
+      }
+    });
+  }
+}
+
 export {
   addFloor,
   alignPush,
@@ -173,4 +185,5 @@ export {
   addReplyStat,
   peakAuthorReply,
   addIdPushCount,
+  quickCopy,
 };

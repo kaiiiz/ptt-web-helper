@@ -77,4 +77,20 @@ function removeHlBgColor(color: string): void {
   hlBgColorSet.delete(color);
 }
 
-export { getFirstElByXPath, getIdElMap, getHlBgColor, removeHlBgColor };
+function pushToText(push: HTMLElement): string {
+  let uid = push.querySelector(".push-userid")?.textContent?.trim();
+  let tag = push.querySelector(".push-tag")?.textContent?.trim();
+  let content = push.querySelector(".push-content")?.textContent?.trim();
+  if (uid == null) uid = "";
+  if (tag == null) tag = "";
+  if (content == null) content = "";
+  return `${tag} ${uid} ${content}\n`;
+}
+
+export {
+  getFirstElByXPath,
+  getIdElMap,
+  getHlBgColor,
+  removeHlBgColor,
+  pushToText,
+};
