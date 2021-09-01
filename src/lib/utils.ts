@@ -28,7 +28,7 @@ function getIdElMap(
   return idElMap;
 }
 
-const hlBgColorSet = new Set();
+const hlBgColorSet = new Set<string>();
 
 function getHlBgColor(): string {
   const getColor = () =>
@@ -38,9 +38,36 @@ function getHlBgColor(): string {
       format: "rgba",
       alpha: 0.45,
     });
+
+  const parseColor = (color: string): Array<number> => {
+    return color
+      .replace("rgba(", "")
+      .replace(")", "")
+      .split(",")
+      .map((x) => parseFloat(x));
+  };
+
+  const minSimilarity = (rgba: Array<number>): number => {
+    let minSim = Number.MAX_VALUE;
+    for (const prevColor of hlBgColorSet) {
+      let distance = 0.0;
+      const prevRgba = parseColor(prevColor);
+      for (let i = 0; i < 3; i++) {
+        distance += Math.pow(rgba[i] - prevRgba[i], 2);
+      }
+      minSim = Math.min(minSim, distance);
+    }
+    return minSim;
+  };
+
   let color = getColor();
-  while (hlBgColorSet.has(color)) {
+  let rgba = parseColor(color);
+  let retry = 0;
+
+  while (minSimilarity(rgba) < 5000 && retry < 100) {
     color = getColor();
+    rgba = parseColor(color);
+    retry += 1;
   }
   hlBgColorSet.add(color);
   return color;

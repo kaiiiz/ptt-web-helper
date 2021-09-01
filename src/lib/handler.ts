@@ -36,8 +36,7 @@ const mouseLeavePush = (uidPushes: Array<HTMLElement>): void => {
 };
 
 const dblclickPush = (uidPushes: Array<HTMLElement>): void => {
-  let hasColor = false;
-  const candidateColor = getHlBgColor();
+  let candidateColor = "";
 
   for (const uidPush of uidPushes) {
     const dataColor = uidPush.getAttribute("data-color");
@@ -46,16 +45,13 @@ const dblclickPush = (uidPushes: Array<HTMLElement>): void => {
     if (dataColor) {
       // remove highlight push
       clearHl(uidPush, uid, dataColor);
-      hasColor = true;
     } else {
       // highlight push
+      if (candidateColor == "") {
+        candidateColor = getHlBgColor();
+      }
       addHl(uidPush, uid, candidateColor);
     }
-  }
-
-  // remove candidate color if trigger remove color logic
-  if (hasColor) {
-    removeHlBgColor(candidateColor);
   }
 };
 
