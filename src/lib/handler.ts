@@ -127,21 +127,24 @@ const updateHlStat = (
     hlStat.removeChild(hlStat.lastChild!);
   }
 
-  const elevator = document.getElementById("pwh_elevator");
-  const elevatorInput = document.getElementById("pwh_btn_elevator_input");
+  const elevator = <HTMLDivElement>document.getElementById("pwh_elevator");
+  const elevatorInput = <HTMLInputElement>(
+    document.getElementById("pwh_btn_elevator_input")
+  );
 
   for (const [uid, hlId] of hlIdMap.entries()) {
     const hlStatEnt = createHlStatEnt(uid, hlId.color);
 
     if (elevator) {
-      hlStatEnt.addEventListener("click", () =>
+      hlStatEnt.addEventListener("click", () => {
         updateElevator(
           idElMap,
           elevator as HTMLDivElement,
           elevatorInput as HTMLInputElement,
           uid
-        )
-      );
+        );
+        elevatorInput.checked = true;
+      });
     }
 
     hlStat.appendChild(hlStatEnt);
