@@ -28,12 +28,14 @@ const pushes = <HTMLCollectionOf<HTMLElement>>(
 const idElMap = getIdElMap(pushes);
 
 const createSkeleton = (items: { [key: string]: boolean }) => {
-  const main = document.getElementById("main-container");
+  const main = document.getElementById("main-container")!;
+  main.classList.add("pwh-main");
+
   const pwhNavContainer = document.createElement("div");
   pwhNavContainer.id = "pwh_navbar_container";
 
   // add navbar child
-  if (items.peakAuthorReply) {
+  if (items.addFloor && items.peakAuthorReply) {
     const pwhNavBar = document.createElement("div");
     pwhNavBar.id = "pwh_elevator_wrapper";
     const elevator = createElevator();
@@ -41,7 +43,7 @@ const createSkeleton = (items: { [key: string]: boolean }) => {
     pwhNavContainer.appendChild(pwhNavBar);
   }
 
-  if (items.hlClick) {
+  if (items.hlClick && items.showHlStat) {
     const pwhNavBar = document.createElement("div");
     pwhNavBar.id = "pwh_hl_stat_wrapper";
     const hlStat = createHlStat();
@@ -61,6 +63,7 @@ chrome.storage.sync.get(
     "addReplyStat",
     "hlHover",
     "hlClick",
+    "showHlStat",
     "addClearAllHlBtn",
     "addFoldModeBtn",
     "addFocusModeBtn",
@@ -99,7 +102,9 @@ chrome.storage.sync.get(
     if (items.hlClick) {
       hlClick(pushes, idElMap);
 
-      showHlStat(pushes, idElMap);
+      if (items.showHlStat) {
+        showHlStat(pushes, idElMap);
+      }
 
       if (items.addClearAllHlBtn) {
         addClearAllHlBtn(pushes, idElMap);

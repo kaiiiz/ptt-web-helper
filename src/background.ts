@@ -8,6 +8,7 @@ chrome.runtime.onInstalled.addListener(() => {
     addReplyStat: true,
     hlHover: true,
     hlClick: true,
+    showHlStat: true,
     addClearAllHlBtn: true,
     addFoldModeBtn: true,
     addFocusModeBtn: true,

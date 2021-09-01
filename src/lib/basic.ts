@@ -1,9 +1,4 @@
-import {
-  createFloorEl,
-  createMetaline,
-  createElevator,
-  createBtn,
-} from "./createEl";
+import { createFloorEl, createMetaline, createBtn } from "./createEl";
 import { getFirstElByXPath } from "./utils";
 import { updateElevator, clickElevatorBtn } from "./handler";
 

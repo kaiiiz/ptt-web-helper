@@ -40,6 +40,7 @@ const Options = () => {
   const [addReplyStat, setAddReplyStat] = useState<boolean>(false);
   const [hlHover, setHlHover] = useState<boolean>(false);
   const [hlClick, setHlClick] = useState<boolean>(false);
+  const [showHlStat, setShowHlStat] = useState<boolean>(false);
   const [addClearAllHlBtn, setAddClearAllHlBtn] = useState<boolean>(false);
   const [addFoldModeBtn, setAddFoldModeBtn] = useState<boolean>(false);
   const [addFocusModeBtn, setAddFocusModeBtn] = useState<boolean>(false);
@@ -58,6 +59,7 @@ const Options = () => {
         "addReplyStat",
         "hlHover",
         "hlClick",
+        "showHlStat",
         "addClearAllHlBtn",
         "addFoldModeBtn",
         "addFocusModeBtn",
@@ -71,6 +73,7 @@ const Options = () => {
         setAddReplyStat(items.addReplyStat);
         setHlHover(items.hlHover);
         setHlClick(items.hlClick);
+        setShowHlStat(items.showHlStat);
         setAddClearAllHlBtn(items.addClearAllHlBtn);
         setAddFoldModeBtn(items.addFoldModeBtn);
         setAddFocusModeBtn(items.addFocusModeBtn);
@@ -90,6 +93,7 @@ const Options = () => {
         addReplyStat: addReplyStat,
         hlHover: hlHover,
         hlClick: hlClick,
+        showHlStat: showHlStat,
         addClearAllHlBtn: addClearAllHlBtn,
         addFoldModeBtn: addFoldModeBtn,
         addFocusModeBtn: addFocusModeBtn,
@@ -162,6 +166,12 @@ const Options = () => {
         />
 
         <div style={hlChildOptions}>
+          <Option
+            checked={showHlStat && hlClick}
+            onChange={(event) => setShowHlStat(event.target.checked)}
+            text="顯示目前長亮 ID"
+            disabled={!hlClick}
+          />
           <Option
             checked={addClearAllHlBtn && hlClick}
             onChange={(event) => setAddClearAllHlBtn(event.target.checked)}
