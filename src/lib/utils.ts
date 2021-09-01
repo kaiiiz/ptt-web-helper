@@ -4,16 +4,20 @@ function getPushes(): Array<HTMLElement> {
   const pushes = <HTMLCollectionOf<HTMLElement>>(
     document.getElementsByClassName("push")
   );
-  const lastBarrier = <HTMLElement>(
+  const lastBarrier = <HTMLElement | null>(
     getFirstElByXPath("//span[contains(text(), '發信站')][last()]")
   );
-  let firstPushIdx = 0;
-  let firstPush = pushes[firstPushIdx];
-  while (firstPush.offsetTop < lastBarrier.offsetTop) {
-    firstPushIdx++;
-    firstPush = pushes[firstPushIdx];
+  if (lastBarrier) {
+    let firstPushIdx = 0;
+    let firstPush = pushes[firstPushIdx];
+    while (firstPush.offsetTop < lastBarrier.offsetTop) {
+      firstPushIdx++;
+      firstPush = pushes[firstPushIdx];
+    }
+    return [...pushes].slice(firstPushIdx);
+  } else {
+    return [...pushes];
   }
-  return [...pushes].slice(firstPushIdx);
 }
 
 function getFirstElByXPath(path: string): Node | null {
