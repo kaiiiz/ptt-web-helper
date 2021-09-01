@@ -91,12 +91,7 @@ function showHlStat(
   pushes: HTMLCollectionOf<HTMLElement>,
   idElMap: Map<string, Array<HTMLElement>>
 ): void {
-  const main = document.getElementById("main-container");
-  if (main == null) return;
-
-  const hlStat = createHlStat();
-  main.appendChild(hlStat);
-
+  const hlStat = <HTMLDivElement>document.getElementById("pwh_hl_stat")!;
   for (const push of pushes) {
     push.addEventListener("dblclick", () => updateHlStat(hlStat, idElMap));
   }

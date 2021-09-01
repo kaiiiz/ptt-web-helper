@@ -122,8 +122,7 @@ function peakAuthorReply(
   const btn = createBtn("icons/elevator.png", "elevator");
   navigation.appendChild(btn.wrapper);
 
-  const elevator = createElevator();
-  main.appendChild(elevator);
+  const elevator = <HTMLDivElement>document.getElementById("pwh_elevator")!;
 
   btn.input.addEventListener("click", () => clickElevatorBtn(elevator));
 

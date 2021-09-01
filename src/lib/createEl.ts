@@ -74,8 +74,7 @@ function createBtn(
 function createElevator(): HTMLDivElement {
   const elevator = document.createElement("div");
   elevator.id = "pwh_elevator";
-  elevator.classList.add("bbs-content");
-  elevator.classList.add("pwh-hidden");
+  elevator.classList.add("bbs-content", "pwh-hidden");
 
   const entAnchor = document.createElement("a");
 

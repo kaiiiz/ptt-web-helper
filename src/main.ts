@@ -16,6 +16,8 @@ import {
   showHlStat,
 } from "./lib/hl";
 
+import { createHlStat, createElevator } from "./lib/createEl";
+
 import { getIdElMap } from "./lib/utils";
 
 import "./scss/style.scss";
@@ -24,6 +26,30 @@ const pushes = <HTMLCollectionOf<HTMLElement>>(
   document.getElementsByClassName("push")
 );
 const idElMap = getIdElMap(pushes);
+
+const createSkeleton = (items: { [key: string]: boolean }) => {
+  const main = document.getElementById("main-container");
+  const pwhNavContainer = document.createElement("div");
+  pwhNavContainer.id = "pwh_navbar_container";
+
+  // add navbar child
+  if (items.peakAuthorReply) {
+    const pwhNavBar = document.createElement("div");
+    pwhNavBar.id = "pwh_elevator_wrapper";
+    const elevator = createElevator();
+    pwhNavBar.appendChild(elevator);
+    pwhNavContainer.appendChild(pwhNavBar);
+  }
+
+  if (items.hlClick) {
+    const pwhNavBar = document.createElement("div");
+    pwhNavBar.id = "pwh_hl_stat_wrapper";
+    const hlStat = createHlStat();
+    pwhNavBar.appendChild(hlStat);
+    pwhNavContainer.appendChild(pwhNavBar);
+  }
+  document.body.insertBefore(pwhNavContainer, main);
+};
 
 chrome.storage.sync.get(
   [
@@ -40,6 +66,8 @@ chrome.storage.sync.get(
     "addFocusModeBtn",
   ],
   (items) => {
+    createSkeleton(items);
+
     if (items.addFloor) {
       addFloor(pushes);
 
