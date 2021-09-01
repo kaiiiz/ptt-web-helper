@@ -5,6 +5,7 @@ import { createHlStatEnt, createElevatorEnt } from "./createEl";
 let enableFocusMode = false;
 let enableFoldMode = false;
 let enableElevator = false;
+const elevatorCtx = new Map<string, number>();
 
 const updateClearAllBtn = (btnInput: HTMLInputElement): void => {
   btnInput.checked = hlIdMap.size > 0;
@@ -16,12 +17,6 @@ const clickClearAllBtn = (btnInput: HTMLInputElement): void => {
     for (const push of hlId.el) {
       clearHl(push, uid, hlId.color);
     }
-  }
-
-  // update hl stat modal
-  const hlStat = <HTMLDivElement>document.getElementById("pwh_hl_stat");
-  if (hlStat) {
-    updateHlStat(hlStat);
   }
 
   // update clear all button status
@@ -121,35 +116,61 @@ const clickElevatorBtn = (elevator: HTMLDivElement): void => {
   enableElevator = !enableElevator;
 };
 
-const updateHlStat = (hlStat: HTMLDivElement): void => {
+const updateHlStat = (
+  hlStat: HTMLDivElement,
+  idElMap: Map<string, Array<HTMLElement>>
+): void => {
   // clear previous result
   while (hlStat.firstChild) {
     hlStat.removeChild(hlStat.lastChild!);
   }
 
+  const elevator = document.getElementById("pwh_elevator");
+  const elevatorInput = document.getElementById("pwh_btn_elevator_input");
+
   for (const [uid, hlId] of hlIdMap.entries()) {
-    hlStat.appendChild(createHlStatEnt(uid, hlId.color));
+    const hlStatEnt = createHlStatEnt(uid, hlId.color);
+
+    if (elevator) {
+      hlStatEnt.addEventListener("click", () =>
+        updateElevator(
+          idElMap,
+          elevator as HTMLDivElement,
+          elevatorInput as HTMLInputElement,
+          uid
+        )
+      );
+    }
+
+    hlStat.appendChild(hlStatEnt);
   }
 };
 
-const updatePeak = (
+const updateElevator = (
   idElMap: Map<string, Array<HTMLElement>>,
   elevator: HTMLDivElement,
   elevatorInput: HTMLInputElement,
   uid: string,
-  targetFloor: number
+  targetFloor?: number
 ): void => {
+  // save previous scroll position for previous uid
+  const prevScrollPos = elevator.scrollTop;
+  const prevUid = elevator.getAttribute("data-uid");
+  if (prevUid) {
+    elevatorCtx.set(prevUid, prevScrollPos);
+  }
+
   // clear previous result
   while (elevator.firstChild) {
     elevator.removeChild(elevator.lastChild!);
   }
 
   elevator.classList.remove("pwh-hidden");
-  enableElevator = true;
+  elevator.setAttribute("data-uid", uid);
   elevatorInput.checked = true;
-  const uidPushes = idElMap.get(uid)!;
 
   // calculate floor padding
+  const uidPushes = idElMap.get(uid)!;
   let uidMaxFloorDigits = 0;
   for (const uidPush of uidPushes) {
     const dataFloor = uidPush.getAttribute("data-floor");
@@ -181,7 +202,16 @@ const updatePeak = (
       targetScrollPos = ent.offsetTop;
     }
   }
-  elevator.scrollTop = targetScrollPos;
+
+  // restore previous position if not specify targetFloor
+  const uidPos = elevatorCtx.get(uid);
+  if (targetFloor == null && uidPos != null) {
+    elevator.scrollTop = uidPos;
+  } else {
+    elevator.scrollTop = targetScrollPos;
+  }
+
+  enableElevator = true;
 };
 
 export {
@@ -194,7 +224,7 @@ export {
   clickFoldModeBtn,
   clickElevatorBtn,
   updateHlStat,
-  updatePeak,
+  updateElevator,
 };
 
 // helper function

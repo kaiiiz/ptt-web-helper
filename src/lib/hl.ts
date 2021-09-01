@@ -65,7 +65,10 @@ function addFoldModeBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
   );
 }
 
-function addClearAllHlBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
+function addClearAllHlBtn(
+  pushes: HTMLCollectionOf<HTMLElement>,
+  idElMap: Map<string, Array<HTMLElement>>
+): void {
   const navigation = document.getElementById("navigation");
   if (navigation == null) return;
 
@@ -74,12 +77,20 @@ function addClearAllHlBtn(pushes: HTMLCollectionOf<HTMLElement>): void {
 
   btn.input.addEventListener("click", () => clickClearAllBtn(btn.input));
 
+  const hlStat = <HTMLDivElement>document.getElementById("pwh_hl_stat");
+  if (hlStat) {
+    btn.input.addEventListener("click", () => updateHlStat(hlStat, idElMap));
+  }
+
   for (const push of pushes) {
     push.addEventListener("dblclick", () => updateClearAllBtn(btn.input));
   }
 }
 
-function showHlStat(pushes: HTMLCollectionOf<HTMLElement>): void {
+function showHlStat(
+  pushes: HTMLCollectionOf<HTMLElement>,
+  idElMap: Map<string, Array<HTMLElement>>
+): void {
   const main = document.getElementById("main-container");
   if (main == null) return;
 
@@ -87,7 +98,7 @@ function showHlStat(pushes: HTMLCollectionOf<HTMLElement>): void {
   main.appendChild(hlStat);
 
   for (const push of pushes) {
-    push.addEventListener("dblclick", () => updateHlStat(hlStat));
+    push.addEventListener("dblclick", () => updateHlStat(hlStat, idElMap));
   }
 }
 

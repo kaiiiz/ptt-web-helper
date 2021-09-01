@@ -5,7 +5,7 @@ import {
   createBtn,
 } from "./createEl";
 import { getFirstElByXPath } from "./utils";
-import { updatePeak, clickElevatorBtn } from "./handler";
+import { updateElevator, clickElevatorBtn } from "./handler";
 
 function addFloor(pushes: HTMLCollectionOf<HTMLElement>): void {
   let floor = 1;
@@ -134,7 +134,7 @@ function peakAuthorReply(
     if (uidEl == null || uid == null || dataFloor == null) continue;
     uidEl.classList.add("pwh-peak-author");
     uidEl.addEventListener("click", () =>
-      updatePeak(idElMap, elevator, btn.input, uid, +dataFloor)
+      updateElevator(idElMap, elevator, btn.input, uid, +dataFloor)
     );
   }
 }
