@@ -7,7 +7,7 @@ function getPushes(): Array<HTMLElement> {
   const lastBarrier = <HTMLElement | null>(
     getFirstElByXPath("//span[contains(text(), '發信站')][last()]")
   );
-  if (lastBarrier) {
+  if (pushes.length > 0 && lastBarrier) {
     let firstPushIdx = 0;
     let firstPush = pushes[firstPushIdx];
     while (firstPush.offsetTop < lastBarrier.offsetTop) {
