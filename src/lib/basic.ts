@@ -1,16 +1,23 @@
-import { createFloorEl, createMetaline } from "./createEl";
+import {
+  createFloorEl,
+  createMetaline,
+  createBtn,
+  createPushCount,
+} from "./createEl";
 import { getFirstElByXPath } from "./utils";
+import { updateElevator, clickElevatorBtn, keydownCopy } from "./handler";
 
-function addFloor(pushes: HTMLCollectionOf<Element>): void {
+function addFloor(pushes: Array<HTMLElement>): void {
   let floor = 1;
   const maxFloorDigits = pushes.length.toString().length;
   for (const push of pushes) {
+    push.setAttribute("data-floor", `${floor}`);
     push.insertBefore(createFloorEl(floor, maxFloorDigits), push.firstChild);
     floor += 1;
   }
 }
 
-function alignPush(pushes: HTMLCollectionOf<Element>): void {
+function alignPush(pushes: Array<HTMLElement>): void {
   let maxUidLen = 0;
   for (const push of pushes) {
     const uidEl = push.querySelector(".push-userid");
@@ -29,7 +36,7 @@ function alignPush(pushes: HTMLCollectionOf<Element>): void {
   }
 }
 
-function hideLongReplyId(pushes: HTMLCollectionOf<Element>): void {
+function hideLongReplyId(pushes: Array<HTMLElement>): void {
   let prevUid = "";
   for (const push of pushes) {
     const uidEl = push.querySelector(".push-userid");
@@ -42,7 +49,7 @@ function hideLongReplyId(pushes: HTMLCollectionOf<Element>): void {
   }
 }
 
-function highlightAuthor(pushes: HTMLCollectionOf<Element>): void {
+function highlightAuthor(pushes: Array<HTMLElement>): void {
   // get author metadata
   const authorEl = getFirstElByXPath(
     "//div[@class='article-metaline']/span[text()='作者']"
@@ -65,7 +72,7 @@ function highlightAuthor(pushes: HTMLCollectionOf<Element>): void {
   }
 }
 
-function addReplyStat(pushes: HTMLCollectionOf<Element>): void {
+function addReplyStat(pushes: Array<HTMLElement>): void {
   const idStat = new Map();
   for (const push of pushes) {
     const uid = push.querySelector(".push-userid")?.textContent?.trim();
@@ -104,4 +111,74 @@ function addReplyStat(pushes: HTMLCollectionOf<Element>): void {
   main.insertBefore(peopleMetaline, voteMetaline);
 }
 
-export { addFloor, alignPush, hideLongReplyId, highlightAuthor, addReplyStat };
+function peakAuthorReply(
+  pushes: Array<HTMLElement>,
+  idElMap: Map<string, Array<HTMLElement>>
+): void {
+  const navigation = document.getElementById("navigation");
+  const main = document.getElementById("main-container");
+  if (navigation == null || main == null) return;
+
+  const btn = createBtn("icons/elevator.png", "elevator");
+  navigation.appendChild(btn.wrapper);
+
+  const elevator = <HTMLDivElement>document.getElementById("pwh_elevator")!;
+  const elevatorInput = <HTMLInputElement>(
+    document.getElementById("pwh_btn_elevator_input")
+  );
+
+  btn.input.addEventListener("click", () =>
+    clickElevatorBtn(elevator, elevatorInput)
+  );
+
+  for (const push of pushes) {
+    const uidEl = push.querySelector<HTMLElement>(".push-userid");
+    const uid = uidEl?.textContent?.trim();
+    const dataFloor = push.getAttribute("data-floor");
+    if (uidEl == null || uid == null || dataFloor == null) continue;
+    uidEl.classList.add("pwh-peak-author");
+    uidEl.addEventListener("click", () => {
+      elevatorInput.checked = true;
+      updateElevator(idElMap, elevator, btn.input, uid, +dataFloor);
+    });
+  }
+}
+
+function addIdPushCount(idElMap: Map<string, Array<HTMLElement>>): void {
+  for (const uidPushes of idElMap.values()) {
+    const total = uidPushes.length;
+    for (let i = 0; i < total; i++) {
+      const pushCount = createPushCount(i + 1, total);
+      uidPushes[i].appendChild(pushCount);
+      uidPushes[i].addEventListener("mouseenter", () => {
+        pushCount.classList.remove("pwh-hidden");
+      });
+      uidPushes[i].addEventListener("mouseleave", () => {
+        pushCount.classList.add("pwh-hidden");
+      });
+    }
+  }
+}
+
+function quickCopy(pushes: Array<HTMLElement>): void {
+  for (let i = 0; i < pushes.length; i++) {
+    const push = pushes[i];
+    push.tabIndex = 0;
+    push.addEventListener("keydown", (e) => {
+      if (e.key == "y") {
+        keydownCopy(e.target as HTMLElement, i, pushes);
+      }
+    });
+  }
+}
+
+export {
+  addFloor,
+  alignPush,
+  hideLongReplyId,
+  highlightAuthor,
+  addReplyStat,
+  peakAuthorReply,
+  addIdPushCount,
+  quickCopy,
+};

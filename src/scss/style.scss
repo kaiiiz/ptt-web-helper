@@ -1,0 +1,162 @@
+.push:focus {
+  background-color: rgb(85, 85, 85);
+  outline: 1px solid rgb(85, 85, 85);
+  outline-offset: -1px;
+}
+
+.push.pwh-copy-effect {
+  background-color: rgb(85, 85, 85) !important;
+}
+
+.pwh-floor {
+  margin-right: 10px;
+}
+
+.pwh-floor-anchor {
+  position: relative;
+  top: -40px;
+  visibility: hidden;
+}
+
+.pwh-cont-user {
+  visibility: hidden;
+}
+
+.pwh-push-count {
+  margin-left: .75rem;
+}
+
+.pwh-peak-author {
+  cursor: pointer;
+}
+
+.pwh-author {
+  font-weight: bolder;
+  text-decoration: underline;
+}
+
+.pwh-hl-hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.pwh-hidden {
+  display: none !important;
+}
+
+#navigation .pwh-nav-btn {
+  padding: 0;
+
+  .pwh-nav-btn-input:checked ~ label > .pwh-nav-icon-wrapper {
+    background-color: #969696;
+  }
+
+  .pwh-nav-icon-wrapper {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 9px;
+
+    .pwh-nav-icon {
+      width: 26px;
+      height: 26px;
+    }
+  }
+}
+
+.pwh-dim-bg,
+.pwh-dim-bg > span.hl,
+.pwh-dim-bg > span.push-content {
+  color: rgb(70, 70, 70);
+}
+
+.pwh-fold-reply {
+  display: none;
+}
+
+#pwh_navbar_container {
+  position: fixed;
+  bottom: 40px;
+  width: 100%;
+  z-index: 100;
+
+  #pwh_hl_stat_wrapper {
+    background-color: #ccc;
+  }
+
+  #pwh_hl_stat {
+    max-width: 1200px;
+    min-width: 600px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    font-size: 1rem;
+
+    .pwh-hl-stat-ent {
+      padding: 0.3rem 0.75rem;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      .pwh-hl-stat-ent-color {
+        display: inline-block;
+        border: black solid 1px;
+        width: 0.75rem;
+        height: 0.75rem;
+        margin-right: 0.5rem;
+      }
+
+      &:hover {
+        background-color: #eee;
+      }
+    }
+  }
+
+  #pwh_elevator_wrapper {
+    padding-bottom: 0.5rem;
+  }
+
+  #pwh_elevator {
+    max-width: 1200px;
+    min-width: 600px;
+    background-color: black;
+    margin: 0 auto;
+    max-height: 130px;
+    overflow-y: auto;
+    border-radius: 6px;
+    border: white solid 1px;
+    overscroll-behavior: contain;
+    font-size: 1rem;
+
+    a {
+      color: white;
+      display: block;
+      text-decoration: none;
+      padding: 0.5rem 0.75rem;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+      }
+    }
+
+    .pwh-elevator-ent {
+      white-space: pre-wrap;
+
+      a {
+        width: 100%;
+      }
+
+      .pwh-elevator-ent-tag {
+        margin: 0 6px;
+      }
+
+      .pwh-elevator-ent-ip {
+        float: right;
+      }
+
+      .pwh-downvote {
+        color: #f66;
+      }
+    }
+  }
+}
