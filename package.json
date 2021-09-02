@@ -1,6 +1,6 @@
 {
   "name": "ptt-web-helper",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "PTT Web 介面的輔助工具",
   "main": "index.js",
   "scripts": {
